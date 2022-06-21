@@ -31,9 +31,9 @@ CREATE TABLE `detail_user` (
   PRIMARY KEY (`id_detail`),
   KEY `id_user` (`id_user`),
   KEY `id_kelas` (`id_kelas`),
-  CONSTRAINT `detail_user_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`),
+  CONSTRAINT `detail_user_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user_sistem` (`id_user`),
   CONSTRAINT `detail_user_ibfk_2` FOREIGN KEY (`id_kelas`) REFERENCES `kelas` (`id_kelas`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `detail_user` */
 
@@ -68,7 +68,14 @@ insert  into `detail_user`(`id_detail`,`id_user`,`nama`,`jk`,`tgl_lahir`,`id_kel
 (29,'2593','SARAH SYIFA AURELIA','PR','2012-07-07','isa','28'),
 (30,'2598','TSALITSA SHOLIHATI NISA','PR','2012-08-14','isa','29'),
 (31,'2601','YASMIN YOJA GEYSILA','PR','2012-11-29','isa','30'),
-(32,'2603','ZIDANE RAMADHAN AL GAMALY','LK','2012-05-24','isa','31');
+(32,'2603','ZIDANE RAMADHAN AL GAMALY','LK','2012-05-24','isa','31'),
+(33,'1','SUPERUSER','LK','2000-05-05',NULL,NULL),
+(34,'1372875','USWATUN KHASANAH','PR',NULL,'isa',NULL),
+(35,'1156122','DWI NURCAHYANINGSIH','PR',NULL,'yahya',NULL),
+(36,'1372819','MUHLISIN','LK',NULL,'yunus',NULL),
+(37,'1355255','TRIANA WIDIASTUTI','PR',NULL,'zakariya',NULL),
+(38,'2370','AFIDA ADZLANI TAHTA ARSYA','LK','2012-04-18','yahya','1'),
+(39,'2399','DYTA NOVITASARI','PR','2012-06-23','yahya','2');
 
 /*Table structure for table `jenis_nilai` */
 
@@ -84,14 +91,16 @@ CREATE TABLE `jenis_nilai` (
 /*Data for the table `jenis_nilai` */
 
 insert  into `jenis_nilai`(`id_jenis`,`nama_jenis`,`bobot_jenis`) values 
+(0,NULL,NULL),
 (1,'Ulangan Harian 1',10),
 (2,'Ulangan Harian 2',10),
 (3,'Ulangan Harian 3',10),
 (4,'Ulangan Harian 4',10),
 (5,'Ulangan Harian 5',10),
 (6,'Ulangan Harian 6',10),
-(7,'Ulangan Tengah Semester',20),
-(8,'Ulangan Akhir Semester',20);
+(7,'Ulangan Tengah Semester',10),
+(8,'Ulangan Akhir Semester',10),
+(9,'Remidial',10);
 
 /*Table structure for table `kbm` */
 
@@ -101,30 +110,39 @@ CREATE TABLE `kbm` (
   `id_kbm` int(10) NOT NULL AUTO_INCREMENT,
   `id_kelas` varchar(10) DEFAULT NULL,
   `id_mapel` varchar(10) DEFAULT NULL,
+  `id_user` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id_kbm`),
   KEY `id_kelas` (`id_kelas`),
   KEY `id_mapel` (`id_mapel`),
+  KEY `id_user` (`id_user`),
   CONSTRAINT `kbm_ibfk_1` FOREIGN KEY (`id_kelas`) REFERENCES `kelas` (`id_kelas`),
-  CONSTRAINT `kbm_ibfk_2` FOREIGN KEY (`id_mapel`) REFERENCES `mata_pelajaran` (`id_mapel`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
+  CONSTRAINT `kbm_ibfk_2` FOREIGN KEY (`id_mapel`) REFERENCES `mata_pelajaran` (`id_mapel`),
+  CONSTRAINT `kbm_ibfk_3` FOREIGN KEY (`id_user`) REFERENCES `user_sistem` (`id_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `kbm` */
 
-insert  into `kbm`(`id_kbm`,`id_kelas`,`id_mapel`) values 
-(1,'isa','indo-1'),
-(2,'isa','agama-1'),
-(3,'isa','arab-1'),
-(4,'isa','ing-1'),
-(5,'isa','ipa-1'),
-(6,'isa','ips-1'),
-(7,'isa','jawa-1'),
-(8,'isa','mtk-1'),
-(9,'isa','penjas-1'),
-(10,'isa','pkm-1'),
-(11,'isa','pkn-1'),
-(12,'isa','pks-1'),
-(13,'isa','sbd-1'),
-(14,'isa','tik-1');
+insert  into `kbm`(`id_kbm`,`id_kelas`,`id_mapel`,`id_user`) values 
+(1,'isa','indo-1','1372875'),
+(2,'isa','agama-1','1156122'),
+(3,'isa','arab-1',NULL),
+(4,'isa','ing-1',NULL),
+(5,'isa','ipa-1',NULL),
+(6,'isa','ips-1',NULL),
+(7,'isa','jawa-1',NULL),
+(8,'isa','mtk-1','1355255'),
+(9,'isa','penjas-1',NULL),
+(10,'isa','pkm-1','1372819'),
+(11,'isa','pkn-1',NULL),
+(12,'isa','pks-1',NULL),
+(13,'isa','sbd-1',NULL),
+(14,'isa','tik-1',NULL),
+(15,'yahya','agama-1',NULL),
+(16,'yahya','arab-1',NULL),
+(17,'yahya','indo-1',NULL),
+(18,'yahya','ing-1',NULL),
+(19,'yahya','ipa-1',NULL),
+(20,'yahya',NULL,NULL);
 
 /*Table structure for table `kelas` */
 
@@ -140,8 +158,10 @@ CREATE TABLE `kelas` (
 /*Data for the table `kelas` */
 
 insert  into `kelas`(`id_kelas`,`nama`,`deskripsi`) values 
-('ibrahim','Ibrahim','Kelas 6 Ibrahim'),
-('isa','Isa','Kelas 6 ISA');
+('isa','Isa','Kelas 6 ISA'),
+('yahya','Yahya','Kelas 6 Yahya'),
+('yunus','Yunus','Kelas 6 Yunus'),
+('zakariya','Zakariya','Kelas 6 Zakariya');
 
 /*Table structure for table `mata_pelajaran` */
 
@@ -187,10 +207,10 @@ CREATE TABLE `nilai` (
   KEY `id_user` (`id_user`),
   KEY `id_kbm` (`id_kbm`),
   KEY `id_jenis` (`id_jenis`),
-  CONSTRAINT `nilai_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`),
+  CONSTRAINT `nilai_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user_sistem` (`id_user`),
   CONSTRAINT `nilai_ibfk_2` FOREIGN KEY (`id_kbm`) REFERENCES `kbm` (`id_kbm`),
   CONSTRAINT `nilai_ibfk_3` FOREIGN KEY (`id_jenis`) REFERENCES `jenis_nilai` (`id_jenis`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `nilai` */
 
@@ -201,7 +221,24 @@ insert  into `nilai`(`id_nilai`,`id_user`,`id_kbm`,`id_jenis`,`poin`) values
 (4,'2501',1,4,76),
 (5,'2501',1,7,80),
 (6,'2501',1,8,80),
-(7,'2503',1,1,78);
+(7,'2503',1,1,98),
+(8,'2503',1,2,58),
+(9,'2503',1,3,58),
+(10,'2503',1,7,97),
+(11,'2503',1,8,97),
+(12,'2507',2,1,90),
+(13,'2507',2,2,100),
+(14,'2507',2,3,94),
+(15,'2507',2,4,90),
+(16,'2507',2,7,72),
+(17,'2507',2,8,76),
+(18,'2508',8,1,100),
+(19,'2508',8,2,100),
+(20,'2508',8,3,100),
+(21,'2508',8,4,85),
+(22,'2508',8,7,90),
+(23,'2508',8,8,NULL),
+(25,'2503',1,9,90);
 
 /*Table structure for table `remidial` */
 
@@ -211,19 +248,23 @@ CREATE TABLE `remidial` (
   `id_remidial` int(11) NOT NULL AUTO_INCREMENT,
   `id_nilai` int(11) DEFAULT NULL,
   `poin_remidial` double DEFAULT NULL,
+  `soal_remidial` text DEFAULT NULL,
   `file_remidial` text DEFAULT NULL,
   PRIMARY KEY (`id_remidial`),
   KEY `id_nilai` (`id_nilai`),
   CONSTRAINT `remidial_ibfk_1` FOREIGN KEY (`id_nilai`) REFERENCES `nilai` (`id_nilai`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `remidial` */
 
-/*Table structure for table `user` */
+insert  into `remidial`(`id_remidial`,`id_nilai`,`poin_remidial`,`soal_remidial`,`file_remidial`) values 
+(8,8,90,'/data/remidial/soal_remidial_UH3.pdf','/data/remdial/indo-1/isa/abdurahman_farros_remidial_UH3.pdf');
 
-DROP TABLE IF EXISTS `user`;
+/*Table structure for table `user_sistem` */
 
-CREATE TABLE `user` (
+DROP TABLE IF EXISTS `user_sistem`;
+
+CREATE TABLE `user_sistem` (
   `id_user` varchar(10) NOT NULL,
   `password` varchar(50) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
@@ -232,10 +273,16 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-/*Data for the table `user` */
+/*Data for the table `user_sistem` */
 
-insert  into `user`(`id_user`,`password`,`email`,`hak_akses`,`date_created`) values 
+insert  into `user_sistem`(`id_user`,`password`,`email`,`hak_akses`,`date_created`) values 
 ('1','428','428@gmail.com',1,'2022-05-24'),
+('1156122','guru-6b','dwinurcahyaningsih@gmail.com',2,'2022-05-28'),
+('1355255','guru-6d','trianawidiastuti@gmail.com',2,'2022-05-28'),
+('1372819','guru-6c','muhlisin@gmail.com',2,'2022-05-28'),
+('1372875','guru-6a','uswatunkhasanah@gmail.com',2,'2022-05-27'),
+('2370','tahta','tahta2370@gmail.com',3,'2022-05-28'),
+('2399','dyta','dyta2339@yahoo.com',3,'2022-05-28'),
 ('2501','azzam','azzam2501@gmail.com',3,'2022-05-24'),
 ('2503','farros','farros2503@gmail.com',3,'2022-05-24'),
 ('2507','ali','ali2507@gmail.com',3,'2022-05-24'),
@@ -267,6 +314,49 @@ insert  into `user`(`id_user`,`password`,`email`,`hak_akses`,`date_created`) val
 ('2598','tsalitsa','tsalitsa2598@gmail.com',3,'2022-05-24'),
 ('2601','yasmin','yasmin2598@gmail.com',3,'2022-05-24'),
 ('2603','zidane','zidane2598@gmail.com',3,'2022-05-24');
+
+/*Table structure for table `guru_siswa_perkelas_view` */
+
+DROP TABLE IF EXISTS `guru_siswa_perkelas_view`;
+
+/*!50001 DROP VIEW IF EXISTS `guru_siswa_perkelas_view` */;
+/*!50001 DROP TABLE IF EXISTS `guru_siswa_perkelas_view` */;
+
+/*!50001 CREATE TABLE  `guru_siswa_perkelas_view`(
+ `absen` varchar(2) ,
+ `NIS` varchar(10) ,
+ `nama` varchar(50) ,
+ `nama_kelas` varchar(50) 
+)*/;
+
+/*Table structure for table `siswa_nilai_view` */
+
+DROP TABLE IF EXISTS `siswa_nilai_view`;
+
+/*!50001 DROP VIEW IF EXISTS `siswa_nilai_view` */;
+/*!50001 DROP TABLE IF EXISTS `siswa_nilai_view` */;
+
+/*!50001 CREATE TABLE  `siswa_nilai_view`(
+ `nama_siswa` varchar(50) ,
+ `nama_jenis` varchar(50) ,
+ `nama_mata_pelajaran` varchar(50) ,
+ `kkm` int(2) ,
+ `poin` double 
+)*/;
+
+/*View structure for view guru_siswa_perkelas_view */
+
+/*!50001 DROP TABLE IF EXISTS `guru_siswa_perkelas_view` */;
+/*!50001 DROP VIEW IF EXISTS `guru_siswa_perkelas_view` */;
+
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `guru_siswa_perkelas_view` AS (select `du`.`absen` AS `absen`,`du`.`id_user` AS `NIS`,`du`.`nama` AS `nama`,`ks`.`nama` AS `nama_kelas` from ((`detail_user` `du` join `kelas` `ks`) join `user_sistem` `us`) where `du`.`id_kelas` = `ks`.`id_kelas` and `du`.`id_user` = `us`.`id_user` and `ks`.`nama` = 'isa') */;
+
+/*View structure for view siswa_nilai_view */
+
+/*!50001 DROP TABLE IF EXISTS `siswa_nilai_view` */;
+/*!50001 DROP VIEW IF EXISTS `siswa_nilai_view` */;
+
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `siswa_nilai_view` AS (select `du`.`nama` AS `nama_siswa`,`jn`.`nama_jenis` AS `nama_jenis`,`mp`.`nama` AS `nama_mata_pelajaran`,`mp`.`kkm` AS `kkm`,`nl`.`poin` AS `poin` from (((((`mata_pelajaran` `mp` join `kbm` `km`) join `nilai` `nl`) join `jenis_nilai` `jn`) join `user_sistem` `us`) join `detail_user` `du`) where `mp`.`id_mapel` = `km`.`id_mapel` and `km`.`id_kbm` = `nl`.`id_kbm` and `nl`.`id_jenis` = `jn`.`id_jenis` and `nl`.`id_user` = `us`.`id_user` and `du`.`id_user` = `us`.`id_user` and `us`.`id_user` = 2501) */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
