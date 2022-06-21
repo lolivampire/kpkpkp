@@ -113,7 +113,7 @@ $result_kelas = mysqli_query($conn,$option_kelas);
                     <h3 class="fs-4 mb-3">User</h3>
                     <div class="col">
                         <table class="table bg-white rounded shadow-sm  table-hover" id='tabel_user'>
-                            <thead>
+                            <!-- <thead>
                                 <tr>
                                     <th scope="col" width="10%">ID</th>
                                     <th scope="col" width="20%">Nama</th>
@@ -124,9 +124,9 @@ $result_kelas = mysqli_query($conn,$option_kelas);
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody> -->
 
-                                <?php while($row=mysqli_fetch_assoc($result)): ?>
+                               <!--  <?php while($row=mysqli_fetch_assoc($result)): ?>
                                 <tr>
                                     <th scope="row"> <?= $row["ID"]; ?> </th>
                                     <td> <?= $row["nama"]; ?> </td>
@@ -140,7 +140,7 @@ $result_kelas = mysqli_query($conn,$option_kelas);
                                         <a href="#" class="btn btn-danger">Hapus</a>  
                                      </td>
                                 </tr>
-                                <?php endwhile; ?>
+                                <?php endwhile; ?> -->
 
                             </tbody>
                         </table>
@@ -163,45 +163,97 @@ $result_kelas = mysqli_query($conn,$option_kelas);
         };
 
         $(document).ready(function(){
-            
+
+            var kelas, role;
+
             $('#pilih_role').change(function(){
                 $(this).find('option:selected').each(function(){
-                    var role = $(this).attr('value');
-                    if (role==1 || role==2 || role==0) {
-                        $('#pilih_kelas').attr('disabled','disabled');
-                    } else {
-                        $('#pilih_kelas').removeAttr("disabled");
-                    }
-
-                    $.ajax({
-                            type: 'POST',
-                            url: 'tabel.php',
-                            data: 'rolePilih='+role,
-                            success: function(data){
-                            $('#tabel_user').html(data);
-                        }
+                    role = $(this).attr('value');
+                    $('#pilih_kelas').change(function(){
+                        $(this).find('option:selected').each(function(){
+                            kelas = $(this).attr('value');
                     });
+                        if (role == 3) {
+                            $('#pilih_kelas').removeAttr("disabled");
+                            $.ajax({
+                                type: 'POST',
+                                url: 'tabel.php',
+                                data: {
+                                    tampilData: 'siswa',
+                                    pilihRole: role,
+                                    pilihKelas: kelas
+                                },
+                                success: function(data){
+                                    //$('#tabel_user').html(data);
+                                    console.log(data);
+                                }                          
+                            });
+                        } else {
+                            $('#pilih_kelas').attr('disabled','disabled');
+                            $('#pilih_kelas').val(0);
+                            $.ajax({
+                                type: 'POST',
+                                url: 'tabel.php',
+                                data: {
+                                    tampilData: 'tampil',
+                                    pilihRole: role
+                                },
+                                success: function(data){
+                                    //$('#tabel_user').html(data);
+                                    console.log(data);
+                                }                          
+                            });
+                        }
+                }).change();
+            });
+            
+            // $('#pilih_role').change(function(){
+            //     $(this).find('option:selected').each(function(){
+            //         var role = $(this).attr('value');
+            //         if (role==1 || role==2 || role==0) {
+            //             $('#pilih_kelas').attr('disabled','disabled');
+            //         } else {
+            //             $('#pilih_kelas').removeAttr("disabled");
+            //             if (role==3) {
+
+            //                 $('#pilih_kelas').change(function(){
+            //                     $(this).find('option:selected').each(function(){
+            //                     var kelas = $(this).attr('value');
+            //                     alert(kelas);
+            //                     if (kelas != 0) {
+            //                         $.ajax({
+            //                             type: 'POST',
+            //                             url: 'tabel.php',
+            //                             data: {
+            //                                 tabelsiswa: 'kelas',
+            //                                 kelasPilih: kelas
+            //                             },
+            //                             success: function(data){
+            //                                 $('#tabel_user').html(html);
+            //                             }
+            //                         });
+                           
+            //                     }
+            //                 });
+            //         }).change();
+            //             }
+            //         }
+
+            //         $.ajax({
+            //                 type: 'POST',
+            //                 url: 'tabel.php',
+            //                 data: 'rolePilih='+role,
+            //                 success: function(data){
+            //                 $('#tabel_user').html(data);
+            //             }
+            //         });
 
                     
-                });
-                 $('#pilih_kelas').change(function(){
-                        $(this).find('option:selected').each(function(){
-                            var kelas = $(this).attr('value');
-                            if (kelas != 0) {
-                                alert(kelas);
-                            $.ajax({
-                            type: 'POST',
-                            url: 'tabel.php',
-                            data:'kelasPilih='+kelas,
-                            success: function(data){
-                            $('#tabel_user').html(data);
-                        }
-                    });
-                            }
-                        });
-                    });
-            }).change();
+            //     });
+                 
+            // }).change();
            
+        }).change();
         });
     </script>
 </body>
