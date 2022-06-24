@@ -65,15 +65,15 @@ class Functions
 	function simpanUserSiswa($nama,$jk,$kelas,$absen)
 	{
 		global $conn;
-		$sql = "";
+		$sql = "INSERT INTO detail_user (`id_user`,`nama`,`jk`,`tgl_lahir`,`id_kelas`,`absen`) VALUE (LAST_INSERT_ID,'$nama','$jk','$kelas','$absen')";
 		$result = $conn->query($sql);
 		return $result;
 	}
 
-	function simpanUserGuru($nama,$jk,$kelas,$absen)
+	function simpanUserGuru($nama,$jk,$kelas)
 	{
 		global $conn;
-		$sql = "";
+		$sql = "INSERT INTO detail_user (`id_user`,`nama`,`jk`,`tgl_lahir`,`id_kelas`) VALUE (LAST_INSERT_ID,'$nama','$jk','$kelas')";
 		$result = $conn->query($sql);
 		return $result;
 	}
@@ -81,7 +81,7 @@ class Functions
 	function simpanUserAdmin($nama,$jk)
 	{
 		global $conn;
-		$sql = "";
+		$sql = "INSERT INTO detail_user (`id_user`,`nama`,`jk`,`tgl_lahir`,`id_kelas`) VALUE (LAST_INSERT_ID,'$nama','$jk')";
 		$result = $conn->query($sql);
 		return $result;
 	}

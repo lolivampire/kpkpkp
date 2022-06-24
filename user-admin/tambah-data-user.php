@@ -146,7 +146,7 @@ $fun = new Functions();
             el.classList.toggle("toggled");
         };
 
-        function simpan(id,pass,email,role) {
+        function simpan(id,pass,email,role,nama,jk,kelas,absen) {
             $.ajax({
                 method: 'POST',
                 url: '../config/controller.php',
@@ -155,11 +155,17 @@ $fun = new Functions();
                     id: id,
                     pass: pass,
                     email: email,
-                    role: role
+                    role: role,
+                    nama: nama,
+                    jk: jk,
+                    kelas: kelas,
+                    absen: absen
                 },
                 success: function(data){
                     if (data == 'success') {
-                        $('#notif').html('<div class="alert alert-warning" role="alert">Berhasil Disimpan</div>');
+                        $('#notif').html('<div class="alert alert-success" role="alert">Berhasil Disimpan</div>');
+                    } else {
+                        $('#notif').html('<div class="alert alert-danger" role="alert">Gagal Disimpan</div>');
                     }
                 },
                 cache: false,
@@ -198,12 +204,12 @@ $fun = new Functions();
 
                 if (role != 0 && (id != '' || pass != '' || email != '' || nama != '' || jk != 0)) {
                     if (role == 2 && kelas != 0) {
-                        simpan(role);
+                        simpan(id,pass,email,role,nama,jk,kelas,absen);
                     } else if (role == 3 && kelas != 0 && absen != '') {
-                        simpan(role);
+                        simpan(id,pass,email,role,nama,jk,kelas,absen);
 
                     } else {
-                        simpan(id,pass,email,role);
+                        simpan(id,pass,email,role,nama,jk,kelas,absen);
                     }
                 } else {
                     alert('Masukkan Data');
