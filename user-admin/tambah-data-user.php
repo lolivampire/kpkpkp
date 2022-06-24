@@ -18,6 +18,7 @@ $fun = new Functions();
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <link rel="stylesheet" href="../style.css" />
     <title>Master User Admin</title>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -76,53 +77,55 @@ $fun = new Functions();
                 <a href="user.php" class="btn btn-warning">Kembali</a>
                 <div class="row my-3">
                     <h3 class="fs-4 mb-3">User</h3>
+                    <div id="notif"></div>
                     <div class="col">
 
                         <form>
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="basic-addon1">ID User</span>
-                                <input type="text" class="form-control" placeholder=" Masukkan ID User" aria-label="ID User" aria-describedby="basic-addon1">
+                                <input type="text" class="form-control" placeholder=" Masukkan ID User" aria-label="ID User" aria-describedby="basic-addon1" id="idUser">
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="basic-addon1">Password</span>
-                                <input type="text" class="form-control" placeholder=" Masukkan Password" aria-label="Password" aria-describedby="basic-addon1">
+                                <input type="text" class="form-control" placeholder=" Masukkan Password" aria-label="Password" aria-describedby="basic-addon1" id="pass">
                             </div>
 
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="Masukkan Email" aria-label="Email" aria-describedby="basic-addon2">
+                                <input type="text" class="form-control" placeholder="Masukkan Email" aria-label="Email" aria-describedby="basic-addon2" id="email">
                                 <span class="input-group-text" id="basic-addon2">@gmail.com</span>
                             </div>
 
-                            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-                                <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="role">
+                                <option selected value="0">Role</option>
+                                <option value="1">Admin</option>
+                                <option value="2">Guru</option>
+                                <option value="3">Siswa</option>
                             </select>
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="basic-addon1">NAMA LENGKAP</span>
-                                <input type="text" class="form-control" placeholder=" Nama Lengkap" aria-label="Nama Lengkap" aria-describedby="basic-addon1">
+                                <input type="text" class="form-control" placeholder=" Nama Lengkap" aria-label="Nama Lengkap" aria-describedby="basic-addon1" id="namalengkap">
                             </div>
-                            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-                                <option selected>Jenis Kelamin</option>
+                            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="jeniskelamin">
+                                <option selected value="0">Jenis Kelamin</option>
                                 <option value="1">Laki-laki</option>
                                 <option value="2">Perempuan</option>
                             </select>
-                            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-                                <option selected>Kelas</option>
+
+                            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="kelas">
+                                <option selected value="0">Kelas</option>
                                 <?php
                                 $result = $fun->getKelas();
                                 while ($row = $result->fetch_assoc()) { ?>
                                     <option value=" <?php echo $row['id_kelas'] ?> "> <?php echo $row['nama'] ?> </option>
                                 <?php } ?>
                             </select>
-                            <div class="input-group mb-3">
+                            <div class="input-group mb-3" id="absen">
                                 <span class="input-group-text" id="basic-addon1">Absen</span>
-                                <input type="number" class="form-control" placeholder=" Masukkan Absen" aria-label="Absen" aria-describedby="basic-addon1">
+                                <input type="number" class="form-control" placeholder=" Masukkan Absen" aria-label="Absen" aria-describedby="basic-addon1" id="absenSiswa">
                             </div>
 
                         </form>
-                        <button type="button" class="btn btn-success">Simpan</button>
+                        <button type="button" class="btn btn-success" id="simpan">Simpan</button>
                         <button type="button" class="btn btn-info">Reset</button>
 
                     </div>
@@ -142,6 +145,81 @@ $fun = new Functions();
         toggleButton.onclick = function() {
             el.classList.toggle("toggled");
         };
+
+        function simpan(id,pass,email,role,nama,jk,kelas,absen) {
+            $.ajax({
+                method: 'POST',
+                url: '../config/controller.php',
+                data: {
+                    simpanUser: 'add',
+                    id: id,
+                    pass: pass,
+                    email: email,
+                    role: role,
+                    nama: nama,
+                    jk: jk,
+                    kelas: kelas,
+                    absen: absen
+                },
+                success: function(data){
+                    if (data == 'success') {
+                        $('#notif').html('<div class="alert alert-success" role="alert">Berhasil Disimpan</div>');
+                    } else {
+                        $('#notif').html('<div class="alert alert-danger" role="alert">Gagal Disimpan</div>');
+                    }
+                },
+                cache: false,
+                error: function(xhr, status, error) {
+                    console.error(xhr);
+                }
+            });
+        }
+
+        $(document).ready(function(){
+
+            $('#absen').hide();
+            $('#kelas').hide();
+            $('#role').change(function(){
+                if ($(this).val() == 3) {
+                    $('#absen').show();
+                    $('#kelas').show();
+                } else if ($(this).val() == 2) {
+                    $('#kelas').show();
+                    $('#absen').hide();
+                } else {
+                    $('#absen').hide();
+                    $('#kelas').hide();
+                }
+            });
+
+            $('#simpan').click(function() {
+                var id = $('#idUser').val();
+                var pass = $('#pass').val();
+                var email = $('#email').val();
+                var role = $('#role').val();
+                var nama = $('#namalengkap').val();
+                var jk = $('#jeniskelamin').val();
+                var kelas = $('#kelas').val();
+                var absen = $('#absenSiswa').val();
+
+                if (role != 0 && (id != '' || pass != '' || email != '' || nama != '' || jk != 0)) {
+                    if (role == 2 && kelas != 0) {
+                        simpan(id,pass,email,role,nama,jk,kelas,absen);
+                    } else if (role == 3 && kelas != 0 && absen != '') {
+                        simpan(id,pass,email,role,nama,jk,kelas,absen);
+
+                    } else {
+                        simpan(id,pass,email,role,nama,jk,kelas,absen);
+                    }
+                } else {
+                    alert('Masukkan Data');
+                }
+            });
+
+            
+
+
+        });
     </script>
 </body>
 
