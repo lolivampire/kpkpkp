@@ -54,7 +54,7 @@ class Functions
 		return $result;
 	}
 
-	function simpanUser($id,$pass,$email,$role)
+	function simpanUser($id, $pass, $email, $role)
 	{
 		global $conn;
 		$sql = "INSERT INTO user_sistem VALUE ('$id','$pass','$email','$role',NOW())";
@@ -62,26 +62,30 @@ class Functions
 		return $result;
 	}
 
-	function simpanUserSiswa($nama,$jk,$kelas,$absen)
+	function simpanUserSiswa($nama, $jk, $tgl, $kelas, $absen)
 	{
 		global $conn;
-		$sql = "INSERT INTO detail_user (`id_user`,`nama`,`jk`,`tgl_lahir`,`id_kelas`,`absen`) VALUE (LAST_INSERT_ID,'$nama','$jk','$kelas','$absen')";
+		$sql = "INSERT INTO detail_user (`id_user`,`nama`,`jk`,`tgl_lahir`,`id_kelas`,`absen`) VALUE (LAST_INSERT_ID,'$nama','$jk', '$tgl','$kelas','$absen')";
 		$result = $conn->query($sql);
 		return $result;
 	}
 
-	function simpanUserGuru($nama,$jk,$kelas)
+	function simpanUserGuru($nama, $jk, $tgl, $kelas)
 	{
 		global $conn;
-		$sql = "INSERT INTO detail_user (`id_user`,`nama`,`jk`,`tgl_lahir`,`id_kelas`) VALUE (LAST_INSERT_ID,'$nama','$jk','$kelas')";
+		$sql = "INSERT INTO detail_user (`id_user`,`nama`,`jk`,`tgl_lahir`,`id_kelas`) VALUE (LAST_INSERT_ID,'$nama','$jk','$tgl','$kelas')";
 		$result = $conn->query($sql);
 		return $result;
 	}
 
-	function simpanUserAdmin($nama,$jk)
+	function simpanUserAdmin($nama, $jk)
 	{
 		global $conn;
+<<<<<<< HEAD
 		$sql = "INSERT INTO detail_user (`id_user`,`nama`,`jk`) VALUE (LAST_INSERT_ID,'$nama','$jk')";
+=======
+		$sql = "INSERT INTO detail_user (`id_user`,`nama`,`jk`,`tgl_lahir`) VALUE (LAST_INSERT_ID,'$nama','$jk','$tgl')";
+>>>>>>> e2fc87912cc1c10c81a197ee4a243d22467933ae
 		$result = $conn->query($sql);
 		return $result;
 	}

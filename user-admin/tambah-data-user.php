@@ -2,6 +2,7 @@
 
 require_once "../config/koneksi.php";
 require_once "../config/functions.php";
+include_once "../config/library.php";
 
 $fun = new Functions();
 ?>
@@ -16,12 +17,8 @@ $fun = new Functions();
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <link rel="stylesheet" href="../style.css" />
     <title>Master User Admin</title>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
 
     </script>
@@ -105,6 +102,10 @@ $fun = new Functions();
                                 <span class="input-group-text" id="basic-addon1">NAMA LENGKAP</span>
                                 <input type="text" class="form-control" placeholder=" Nama Lengkap" aria-label="Nama Lengkap" aria-describedby="basic-addon1" id="namalengkap">
                             </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">Tanggal Lahir</span>
+                                <input type="date" name="admission_date" id="tgl_lahir" class="form-control">
+                            </div>
                             <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="jeniskelamin">
                                 <option selected value="0">Jenis Kelamin</option>
                                 <option value="1">Laki-laki</option>
@@ -137,7 +138,6 @@ $fun = new Functions();
     <!-- /#page-content-wrapper -->
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         var el = document.getElementById("wrapper");
         var toggleButton = document.getElementById("menu-toggle");
@@ -146,7 +146,7 @@ $fun = new Functions();
             el.classList.toggle("toggled");
         };
 
-        function simpan(id,pass,email,role,nama,jk,kelas,absen) {
+        function simpan(id, pass, email, role, nama, tgl, jk, kelas, absen) {
             $.ajax({
                 method: 'POST',
                 url: '../config/controller.php',
@@ -157,11 +157,12 @@ $fun = new Functions();
                     email: email,
                     role: role,
                     nama: nama,
+                    tgl: tgl,
                     jk: jk,
                     kelas: kelas,
                     absen: absen
                 },
-                success: function(data){
+                success: function(data) {
                     if (data == 'success') {
                         $('#notif').html('<div class="alert alert-success" role="alert">Berhasil Disimpan</div>');
                     } else {
@@ -175,11 +176,11 @@ $fun = new Functions();
             });
         }
 
-        $(document).ready(function(){
+        $(document).ready(function() {
 
             $('#absen').hide();
             $('#kelas').hide();
-            $('#role').change(function(){
+            $('#role').change(function() {
                 if ($(this).val() == 3) {
                     $('#absen').show();
                     $('#kelas').show();
@@ -198,25 +199,26 @@ $fun = new Functions();
                 var email = $('#email').val();
                 var role = $('#role').val();
                 var nama = $('#namalengkap').val();
+                var tgl = $('#tgl_lahir').val();
                 var jk = $('#jeniskelamin').val();
                 var kelas = $('#kelas').val();
                 var absen = $('#absenSiswa').val();
 
-                if (role != 0 && (id != '' || pass != '' || email != '' || nama != '' || jk != 0)) {
+                if (role != 0 && (id != '' || pass != '' || email != '' || nama != '' || tgl != '' || jk != 0)) {
                     if (role == 2 && kelas != 0) {
-                        simpan(id,pass,email,role,nama,jk,kelas,absen);
+                        simpan(id, pass, email, role, nama, tgl, jk, kelas, absen);
                     } else if (role == 3 && kelas != 0 && absen != '') {
-                        simpan(id,pass,email,role,nama,jk,kelas,absen);
+                        simpan(id, pass, email, role, nama, tgl, jk, kelas, absen);
 
                     } else {
-                        simpan(id,pass,email,role,nama,jk,kelas,absen);
+                        simpan(id, pass, email, role, nama, tgl, jk, kelas, absen);
                     }
                 } else {
                     alert('Masukkan Data');
                 }
             });
 
-            
+
 
 
         });

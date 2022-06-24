@@ -5,14 +5,6 @@ require_once "../config/functions.php";
 
 $fun = new Functions();
 
-
-
-// $sql = "SELECT us.id_user AS ID, du.nama, us.email, us.password AS Pass, us.hak_akses, us.date_created FROM user_sistem us, detail_user du WHERE us.id_user=du.id_user AND  ORDER BY us.id_user ASC";
-// $option_kelas = "SELECT * FROM kelas";
-
-// $result = mysqli_query($conn, $sql);
-// $result_kelas = mysqli_query($conn, $option_kelas);
-
 ?>
 
 
