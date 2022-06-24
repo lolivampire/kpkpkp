@@ -81,7 +81,7 @@ class Functions
 	function simpanUserAdmin($nama,$jk)
 	{
 		global $conn;
-		$sql = "INSERT INTO detail_user (`id_user`,`nama`,`jk`,`tgl_lahir`,`id_kelas`) VALUE (LAST_INSERT_ID,'$nama','$jk')";
+		$sql = "INSERT INTO detail_user (`id_user`,`nama`,`jk`) VALUE (LAST_INSERT_ID,'$nama','$jk')";
 		$result = $conn->query($sql);
 		return $result;
 	}
