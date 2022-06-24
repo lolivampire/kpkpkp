@@ -11,7 +11,6 @@ if (isset($_POST['rolePilih'])) {
 	$pilihanKelas = $_POST['kelasPilih'] ?? null;
 	global $conn;
 
-
 ?>
 
 	<table class="table bg-white rounded shadow-sm table-hover">
