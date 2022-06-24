@@ -53,4 +53,36 @@ class Functions
 		$result = $conn->query($sql);
 		return $result;
 	}
+
+	function simpanUser($id,$pass,$email,$role)
+	{
+		global $conn;
+		$sql = "INSERT INTO user_sistem VALUE ('$id','$pass','$email','$role',NOW())";
+		$result = $conn->query($sql);
+		return $result;
+	}
+
+	function simpanUserSiswa($nama,$jk,$kelas,$absen)
+	{
+		global $conn;
+		$sql = "";
+		$result = $conn->query($sql);
+		return $result;
+	}
+
+	function simpanUserGuru($nama,$jk,$kelas,$absen)
+	{
+		global $conn;
+		$sql = "";
+		$result = $conn->query($sql);
+		return $result;
+	}
+
+	function simpanUserAdmin($nama,$jk)
+	{
+		global $conn;
+		$sql = "";
+		$result = $conn->query($sql);
+		return $result;
+	}
 }
