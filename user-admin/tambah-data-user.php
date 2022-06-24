@@ -1,9 +1,12 @@
 <?php
 
 require_once "../config/koneksi.php";
+require_once "../config/functions.php";
 
-
+$fun = new Functions();
 ?>
+
+
 
 
 <!DOCTYPE html>
@@ -107,8 +110,11 @@ require_once "../config/koneksi.php";
                             </select>
                             <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
                                 <option selected>Kelas</option>
-                                <option value="1">Laki-laki</option>
-                                <option value="2">Perempuan</option>
+                                <?php
+                                $result = $fun->getKelas();
+                                while ($row = $result->fetch_assoc()) { ?>
+                                    <option value=" <?php echo $row['id_kelas'] ?> "> <?php echo $row['nama'] ?> </option>
+                                <?php } ?>
                             </select>
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="basic-addon1">Absen</span>

@@ -45,4 +45,12 @@ class Functions
 		$result = $conn->query($sql);
 		return $result;
 	}
+
+	function getKelas()
+	{
+		global $conn;
+		$sql = "SELECT id_kelas, nama FROM kelas";
+		$result = $conn->query($sql);
+		return $result;
+	}
 }
