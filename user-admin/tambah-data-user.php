@@ -117,7 +117,7 @@ $fun = new Functions();
                                 <?php
                                 $result = $fun->getKelas();
                                 while ($row = $result->fetch_assoc()) { ?>
-                                    <option value=" <?php echo $row['id_kelas'] ?> "> <?php echo $row['nama'] ?> </option>
+                                    <option value="<?php echo $row['id_kelas'] ?>"> <?php echo $row['nama'] ?> </option>
                                 <?php } ?>
                             </select>
                             <div class="input-group mb-3" id="absen">
