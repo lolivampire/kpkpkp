@@ -96,6 +96,25 @@ require_once "../config/koneksi.php";
                                 <option value="2">Two</option>
                                 <option value="3">Three</option>
                             </select>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">NAMA LENGKAP</span>
+                                <input type="text" class="form-control" placeholder=" Nama Lengkap" aria-label="Nama Lengkap" aria-describedby="basic-addon1">
+                            </div>
+                            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                                <option selected>Jenis Kelamin</option>
+                                <option value="1">Laki-laki</option>
+                                <option value="2">Perempuan</option>
+                            </select>
+                            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                                <option selected>Kelas</option>
+                                <option value="1">Laki-laki</option>
+                                <option value="2">Perempuan</option>
+                            </select>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">Absen</span>
+                                <input type="number" class="form-control" placeholder=" Masukkan Absen" aria-label="Absen" aria-describedby="basic-addon1">
+                            </div>
+
                         </form>
                         <button type="button" class="btn btn-success">Simpan</button>
                         <button type="button" class="btn btn-info">Reset</button>
