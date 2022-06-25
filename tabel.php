@@ -1,17 +1,18 @@
 <?php
 
-include 'koneksi.php';
-include '../web/config/library.php';
-include '../web/config/functions.php';
+include 'config/koneksi.php';
+include 'config/library.php';
+include 'config/functions.php';
 
 $fun = new Functions;
 
-if (isset($_POST['rolePilih'])) {
-	$pilihan = $_POST['rolePilih'];
-	$pilihanKelas = $_POST['kelasPilih'] ?? null;
-	global $conn;
+if (isset($_POST['kelasPilih'])) {
+	$pilihanKelas = $_POST['kelasPilih'];
 
 ?>
+<head>
+	<link rel="stylesheet" href="../style.css" />
+</head>
 
 	<table class="table bg-white rounded shadow-sm table-hover">
 		<thead>
@@ -26,10 +27,10 @@ if (isset($_POST['rolePilih'])) {
 			</tr>
 		</thead>
 		<?php
-				if ($pilihanKelas != 0) {
-					echo $pilihanKelas;
-					$sql1 = mysqli_query($conn, $fun->getSiswaKelas($pilihanKelas));
-					while ($roww = mysqli_fetch_array($sql1, MYSQLI_ASSOC)) {
+		if ($pilihanKelas != '0') {
+			
+					$sql1 = $fun->getUserGurubyKelas($pilihanKelas);
+					while ($roww = $sql1->fetch_assoc()) {
 					?>
 
 						<tr>
@@ -50,8 +51,8 @@ if (isset($_POST['rolePilih'])) {
 					<?php
 					}
 				} else {
-					$sql1 = mysqli_query($conn, $fun->getUserData($pilihan));
-					while ($roww = mysqli_fetch_array($sql1, MYSQLI_ASSOC)) {
+					$sql1 = $fun->getUserGuru();
+					while ($roww = $sql1->fetch_assoc()) {
 					?>
 						<tr>
 							<th scope="row"> <?= $roww["ID"]; ?> </th>
@@ -71,7 +72,6 @@ if (isset($_POST['rolePilih'])) {
 				<?php
 					}
 				}
-			}
 			?>
 	</table>
 <?php } ?>

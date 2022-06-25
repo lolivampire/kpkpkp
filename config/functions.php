@@ -1,6 +1,6 @@
 <?php
 
-include_once "../config/koneksi.php";
+include_once "koneksi.php";
 
 class Functions
 {
@@ -42,7 +42,7 @@ class Functions
 	function getUserGurubyKelas($idKelas)
 	{
 		global $conn;
-		$sql = "SELECT us.id_user AS ID, du.nama, us.email, us.password AS Pass, us.hak_akses, us.date_created FROM user_sistem us, detail_user du WHERE us.id_user=du.id_user AND us.hak_akses = 2 AND du.id_kelas = $idKelas ORDER BY us.id_user ASC";
+		$sql = "SELECT us.id_user AS ID, du.nama, us.email, us.password AS Pass, us.hak_akses, us.date_created FROM user_sistem us, detail_user du WHERE us.id_user=du.id_user AND us.hak_akses = 2 AND du.id_kelas = '$idKelas' ORDER BY us.id_user ASC";
 		$result = $conn->query($sql);
 		return $result;
 	}
