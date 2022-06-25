@@ -32,9 +32,9 @@ $fun = new Functions();
             <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><i class="fas fa-user-secret me-2"></i>SIPN</div>
             <div class="list-group list-group-flush my-3">
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
-                <a href="../user-admin/user.php" class="list-group-item list-group-item-action bg-transparent second-text active"><i class="fas fa-project-diagram me-2"></i>User Admin</a>
+                <a href="../user-admin/user.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-project-diagram me-2"></i>User Admin</a>
                 <a href="../user-admin/user-guru.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-project-diagram me-2"></i>User Guru</a>
-                <a href="../user-admin/user-siswa.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-project-diagram me-2"></i>User Siswa</a>
+                <a href="../user-admin/user-siswa.php" class="list-group-item list-group-item-action bg-transparent second-text active"><i class="fas fa-project-diagram me-2"></i>User Siswa</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-chart-line me-2"></i>Mapel</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-paperclip me-2"></i>Nilai</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i class="fas fa-power-off me-2"></i>Logout</a>
@@ -80,9 +80,11 @@ $fun = new Functions();
                     <div class="p-2">
                         <select class="form-select" aria-label="Default select example" id="pilih_kelas">
                             <option selected value="0">Semua Kelas</option>
-                            <?php while ($row = mysqli_fetch_assoc($result_kelas)) : ?>
-                                <option value=" <?php echo $row['id_kelas'] ?> "> <?php echo $row['nama'] ?> </option>
-                            <?php endwhile; ?>
+                            <?php
+                            $resultPilihan = $fun->getKelas();
+                            while ($row = $resultPilihan->fetch_assoc()) { ?>
+                                <option value="<?php echo $row['id_kelas'] ?>"> <?php echo $row['nama'] ?> </option>
+                                <?php } ?>>
                         </select>
                     </div>
                     <div class="ms-auto p-2">
@@ -104,31 +106,6 @@ $fun = new Functions();
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-
-                                <?php
-                                $result = $fun->getUserSiswa();
-                                if ($result && $result->num_rows > 0) {
-                                    while ($row = $result->fetch_assoc()) { ?>
-                                        <tr>
-                                            <th scope="row"> <?= $row["ID"]; ?> </th>
-                                            <td> <?= $row["nama"]; ?> </td>
-                                            <td> <?= $row["email"]; ?> </td>
-                                            <td> <?= $row["Pass"]; ?> </td>
-                                            <td> <?php if ($row["hak_akses"] == 2) {
-                                                        echo "Guru";
-                                                    }; ?> </td>
-                                            <td> <?= $row["date_created"]; ?> </td>
-                                            <td>
-                                                <a href="#" class="btn btn-warning">Rincian</a>
-                                                <a href="#" class="btn btn-primary">Edit</a>
-                                                <a href="#" class="btn btn-danger">Hapus</a>
-                                            </td>
-                                        </tr>
-                                <?php }
-                                } ?>
-
-                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -148,48 +125,26 @@ $fun = new Functions();
             el.classList.toggle("toggled");
         };
 
-        // $(document).ready(function() {
+        $(document).ready(function() {
 
-        //     $('#pilih_role').change(function() {
-        //         $(this).find('option:selected').each(function() {
-        //             var role = $(this).attr('value');
-        //             if (role == 1 || role == 2 || role == 0) {
-        //                 $('#pilih_kelas').attr('disabled', 'disabled');
-        //             } else {
-        //                 $('#pilih_kelas').removeAttr("disabled");
-        //             }
+            $('#pilih_kelas').change(function() {
+                $(this).find('option:selected').each(function() {
+                    var kelas = $(this).attr('value');
+                    $.ajax({
+                        type: 'POST',
+                        url: '../tabel.php',
+                        data: 'SiswakelasPilih=' + kelas,
+                        success: function(data) {
+                            $('#tabel_user').html(data);
+                        }
+                    });
 
-        //             $.ajax({
-        //                 type: 'POST',
-        //                 url: 'tabel.php',
-        //                 data: 'rolePilih=' + role,
-        //                 success: function(data) {
-        //                     $('#tabel_user').html(data);
-        //                 }
-        //             });
+                });
+            }).change();
 
-
-        //         });
-        //         $('#pilih_kelas').change(function() {
-        //             $(this).find('option:selected').each(function() {
-        //                 var kelas = $(this).attr('value');
-        //                 if (kelas != 0) {
-        //                     alert(kelas);
-        //                     $.ajax({
-        //                         type: 'POST',
-        //                         url: 'tabel.php',
-        //                         data: 'kelasPilih=' + kelas,
-        //                         success: function(data) {
-        //                             $('#tabel_user').html(data);
-        //                         }
-        //                     });
-        //                 }
-        //             });
-        //         });
-        //     }).change();
-
-        // });
+        });
     </script>
+</body>
 </body>
 
 </html>

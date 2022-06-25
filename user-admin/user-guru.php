@@ -108,7 +108,7 @@ $fun = new Functions();
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
-        
+
                         </table>
                     </div>
                 </div>
@@ -130,29 +130,9 @@ $fun = new Functions();
 
         $(document).ready(function() {
 
-        //     $('#pilih_role').change(function() {
-        //         $(this).find('option:selected').each(function() {
-        //             var role = $(this).attr('value');
-        //             if (role == 1 || role == 2 || role == 0) {
-        //                 $('#pilih_kelas').attr('disabled', 'disabled');
-        //             } else {
-        //                 $('#pilih_kelas').removeAttr("disabled");
-        //             }
-
-        //             $.ajax({
-        //                 type: 'POST',
-        //                 url: 'tabel.php',
-        //                 data: 'rolePilih=' + role,
-        //                 success: function(data) {
-        //                     $('#tabel_user').html(data);
-        //                 }
-        //             });
-
-
-        //         });
-        $('#pilih_kelas').change(function() {
-            $(this).find('option:selected').each(function() {
-                var kelas = $(this).attr('value');
+            $('#pilih_kelas').change(function() {
+                $(this).find('option:selected').each(function() {
+                    var kelas = $(this).attr('value');
                     $.ajax({
                         type: 'POST',
                         url: '../tabel.php',
@@ -161,9 +141,9 @@ $fun = new Functions();
                             $('#tabel_user').html(data);
                         }
                     });
-                
-            });
-        }).change();
+
+                });
+            }).change();
 
         });
     </script>
