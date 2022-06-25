@@ -108,31 +108,7 @@ $fun = new Functions();
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-
-                                <?php
-                                $result = $fun->getUserGuru();
-                                if ($result && $result->num_rows > 0) {
-                                    while ($row = $result->fetch_assoc()) { ?>
-                                        <tr>
-                                            <th scope="row"> <?= $row["ID"]; ?> </th>
-                                            <td> <?= $row["nama"]; ?> </td>
-                                            <td> <?= $row["email"]; ?> </td>
-                                            <td> <?= $row["Pass"]; ?> </td>
-                                            <td> <?php if ($row["hak_akses"] == 2) {
-                                                        echo "Guru";
-                                                    }; ?> </td>
-                                            <td> <?= $row["date_created"]; ?> </td>
-                                            <td>
-                                                <a href="#" class="btn btn-warning">Rincian</a>
-                                                <a href="#" class="btn btn-primary">Edit</a>
-                                                <a href="#" class="btn btn-danger">Hapus</a>
-                                            </td>
-                                        </tr>
-                                <?php }
-                                } ?>
-
-                            </tbody>
+        
                         </table>
                     </div>
                 </div>
@@ -177,19 +153,16 @@ $fun = new Functions();
         $('#pilih_kelas').change(function() {
             $(this).find('option:selected').each(function() {
                 var kelas = $(this).attr('value');
-                if (kelas != 0) {
-                    alert(kelas);
                     $.ajax({
                         type: 'POST',
-                        url: 'tabel.php',
+                        url: '../tabel.php',
                         data: 'kelasPilih=' + kelas,
                         success: function(data) {
                             $('#tabel_user').html(data);
                         }
                     });
-                }
+                
             });
-        });
         }).change();
 
         });
