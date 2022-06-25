@@ -82,9 +82,11 @@ $fun = new Functions();
                     <div class="p-2">
                         <select class="form-select" aria-label="Default select example" id="pilih_kelas">
                             <option selected value="0">Semua Kelas</option>
-                            <?php while ($row = mysqli_fetch_assoc($result_kelas)) : ?>
-                                <option value=" <?php echo $row['id_kelas'] ?> "> <?php echo $row['nama'] ?> </option>
-                            <?php endwhile; ?>
+                            <?php
+                            $resultPilihan = $fun->getKelas();
+                            while ($row = $resultPilihan->fetch_assoc()) { ?>
+                                <option value="<?php echo $row['id_kelas'] ?>"> <?php echo $row['nama'] ?> </option>
+                            <?php } ?>
                         </select>
                     </div>
                     <div class="ms-auto p-2">

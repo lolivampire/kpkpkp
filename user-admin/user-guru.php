@@ -34,8 +34,8 @@ $fun = new Functions();
             <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><i class="fas fa-user-secret me-2"></i>SIPN</div>
             <div class="list-group list-group-flush my-3">
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
-                <a href="../user-admin/user.php" class="list-group-item list-group-item-action bg-transparent second-text active"><i class="fas fa-project-diagram me-2"></i>User Admin</a>
-                <a href="../user-admin/user-guru.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-project-diagram me-2"></i>User Guru</a>
+                <a href="../user-admin/user.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-project-diagram me-2"></i>User Admin</a>
+                <a href="../user-admin/user-guru.php" class="list-group-item list-group-item-action bg-transparent second-text active"><i class="fas fa-project-diagram me-2"></i>User Guru</a>
                 <a href="../user-admin/user-siswa.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-project-diagram me-2"></i>User Siswa</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-chart-line me-2"></i>Mapel</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-paperclip me-2"></i>Nilai</a>
@@ -49,7 +49,7 @@ $fun = new Functions();
             <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
                 <div class="d-flex align-items-center">
                     <em class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></em>
-                    <h2 class="fs-2 m-0">Master User</h2>
+                    <h2 class="fs-2 m-0">Master User Guru</h2>
                 </div>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,19 +80,13 @@ $fun = new Functions();
 
                 <div class="d-flex mb-3">
                     <div class="p-2">
-                        <select class="form-select" aria-label="Default select example" id="pilih_role">
-                            <option selected value="0">Semua Role</option>
-                            <option value="1">Admin</option>
-                            <option value="2">Guru</option>
-                            <option value="3">Siswa</option>
-                        </select>
-                    </div>
-                    <div class="p-2">
                         <select class="form-select" aria-label="Default select example" id="pilih_kelas">
                             <option selected value="0">Semua Kelas</option>
-                            <?php while ($row = mysqli_fetch_assoc($result_kelas)) : ?>
-                                <option value=" <?php echo $row['id_kelas'] ?> "> <?php echo $row['nama'] ?> </option>
-                            <?php endwhile; ?>
+                            <?php
+                            $resultPilihan = $fun->getKelas();
+                            while ($row = $resultPilihan->fetch_assoc()) { ?>
+                                <option value="<?php echo $row['id_kelas'] ?>"> <?php echo $row['nama'] ?> </option>
+                            <?php } ?>
                         </select>
                     </div>
                     <div class="ms-auto p-2">
@@ -158,7 +152,7 @@ $fun = new Functions();
             el.classList.toggle("toggled");
         };
 
-        // $(document).ready(function() {
+        $(document).ready(function() {
 
         //     $('#pilih_role').change(function() {
         //         $(this).find('option:selected').each(function() {
@@ -180,25 +174,25 @@ $fun = new Functions();
 
 
         //         });
-        //         $('#pilih_kelas').change(function() {
-        //             $(this).find('option:selected').each(function() {
-        //                 var kelas = $(this).attr('value');
-        //                 if (kelas != 0) {
-        //                     alert(kelas);
-        //                     $.ajax({
-        //                         type: 'POST',
-        //                         url: 'tabel.php',
-        //                         data: 'kelasPilih=' + kelas,
-        //                         success: function(data) {
-        //                             $('#tabel_user').html(data);
-        //                         }
-        //                     });
-        //                 }
-        //             });
-        //         });
-        //     }).change();
+        $('#pilih_kelas').change(function() {
+            $(this).find('option:selected').each(function() {
+                var kelas = $(this).attr('value');
+                if (kelas != 0) {
+                    alert(kelas);
+                    $.ajax({
+                        type: 'POST',
+                        url: 'tabel.php',
+                        data: 'kelasPilih=' + kelas,
+                        success: function(data) {
+                            $('#tabel_user').html(data);
+                        }
+                    });
+                }
+            });
+        });
+        }).change();
 
-        // });
+        });
     </script>
 </body>
 

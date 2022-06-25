@@ -25,32 +25,7 @@ if (isset($_POST['rolePilih'])) {
 				<th scope="col">Action</th>
 			</tr>
 		</thead>
-
 		<?php
-		if ($pilihan != 0) {
-			if ($pilihan != 3) {
-				$sql1 = mysqli_query($conn, $fun->getUserData($pilihan));
-				while ($roww = mysqli_fetch_array($sql1, MYSQLI_ASSOC)) {
-		?>
-					<tr>
-						<th scope="row"> <?= $roww["ID"]; ?> </th>
-						<td> <?= $roww["nama"]; ?> </td>
-						<td> <?= $roww["email"]; ?> </td>
-						<td> <?= $roww["Pass"]; ?> </td>
-						<td> <?php if ($roww["hak_akses"] == 1) {
-									echo "Admin";
-								}; ?> </td>
-						<td> <?= $roww["date_created"]; ?> </td>
-						<td>
-							<a href="#" class="btn btn-warning">Rincian</a>
-							<a href="#" class="btn btn-primary">Edit</a>
-							<a href="#" class="btn btn-danger">Hapus</a>
-						<td>
-					</tr>
-
-					<?php
-				}
-			} else {
 				if ($pilihanKelas != 0) {
 					echo $pilihanKelas;
 					$sql1 = mysqli_query($conn, $fun->getSiswaKelas($pilihanKelas));
@@ -97,33 +72,6 @@ if (isset($_POST['rolePilih'])) {
 					}
 				}
 			}
-		} else {
-			$sql1 = mysqli_query($conn, $fun->getAllUser());
-			while ($roww = mysqli_fetch_array($sql1, MYSQLI_ASSOC)) {
-				?>
-
-				<tr>
-					<th scope="row"> <?= $roww["ID"]; ?> </th>
-					<td> <?= $roww["nama"]; ?> </td>
-					<td> <?= $roww["email"]; ?> </td>
-					<td> <?= $roww["Pass"]; ?> </td>
-					<td> <?php if ($roww["hak_akses"] == 1) {
-								echo "Admin";
-							}; ?> </td>
-					<td> <?= $roww["date_created"]; ?> </td>
-					<td>
-						<a href="#" class="btn btn-warning">Rincian</a>
-						<a href="#" class="btn btn-primary">Edit</a>
-						<a href="#" class="btn btn-danger">Hapus</a>
-					<td>
-				</tr>
-
-		<?php
-			}
-		}
-
-		?>
-
-
+			?>
 	</table>
 <?php } ?>
