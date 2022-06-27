@@ -110,4 +110,42 @@ class Functions
 			return 'PR';
 		}
 	}
+
+	function updateDataUser($id, $pass, $email, $role)
+	{
+		global $conn;
+		$sql = "UPDATE user_sistem SET password='$pass',email='$email',hak_akses='$role' WHERE id_user='$id'";
+		$result = $conn->query($sql);
+		return $result;
+	}
+
+	function updateDataDetailUserAdmin($id, $nama, $jk, $tgl, $kelas, $absen)
+	{
+		global $conn;
+		$sql = "UPDATE detail_user SET nama='$nama',jk='$jk',tgl_lahir='$tgl'  WHERE id_user='$id";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	function updateDataDetailUserGuru()
+	{
+		global $conn;
+		$sql = "UPDATE detail_user SET nama='$nama',jk='$jk',tgl-lahi='$tgl',id_kelas='$kelas' WHERE id_user='$id";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	function updateDataDetailUserSiswa()
+	{
+		global $conn;
+		$sql = "UPDATE detail_user SET nama='$nama',jk='$jk',tgl-lahi='$tgl',id_kelas='$kelas',absen='$absen'  WHERE id_user='$id";
+		$result = $conn->query($sql);
+		return $result;
+	}
+
+	function getDataUserAll($id)
+	{
+		global $conn;
+		$sql = "SELECT * FROM user_sistem, detail_user WHERE user_sistem.id_user = detail_user.id_user and user_sistem.id_user = '$id'";
+		$result = $conn->query($sql);
+		return $result;
+	}
 }

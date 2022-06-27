@@ -188,7 +188,6 @@ $fun = new Functions();
         }
 
         $(document).ready(function() {
-
             $('#absen').hide();
             $('#kelas').hide();
             $('#role').change(function() {
@@ -203,7 +202,6 @@ $fun = new Functions();
                     $('#kelas').hide();
                 }
             });
-
             $('#simpan').click(function() {
                 var id = $('#idUser').val();
                 var pass = $('#pass').val();
@@ -228,9 +226,6 @@ $fun = new Functions();
                     alert('Masukkan Data');
                 }
             });
-
-
-
 
         });
     </script>
