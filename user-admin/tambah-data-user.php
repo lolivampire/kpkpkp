@@ -167,6 +167,15 @@ $fun = new Functions();
                 success: function(data) {
                     if (data == 'success') {
                         swal("Success", "Data Berhasil Ditambahkan!", "success");
+                        $('#idUser').val('');
+                        $('#pass').val('');
+                        $('#email').val('');
+                        $('#role').val(0);
+                        $('#namalengkap').val('');
+                        $('#tgl_lahir').val('');
+                        $('#jeniskelamin').val(0);
+                        $('#kelas').val(0);
+                        $('#absenSiswa').val('');
                     } else {
                         swal("Failed", "Data gagal ditambahkan!");
                     }

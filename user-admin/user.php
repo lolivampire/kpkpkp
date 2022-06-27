@@ -191,7 +191,7 @@ $fun = new Functions();
                             <span class="input-group-text" id="basic-addon2">@gmail.com</span>
                         </div>
 
-                        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="role">
+                        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="role" disabled>
                             <option selected value="0">Role</option>
                             <option value="1">Admin</option>
                             <option value="2">Guru</option>
@@ -247,6 +247,7 @@ $fun = new Functions();
         $(document).ready(function() {
 
             $('#pilih_kelas').attr('disabled', true);
+
 
         });
     </script>
