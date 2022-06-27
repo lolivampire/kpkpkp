@@ -166,9 +166,9 @@ $fun = new Functions();
                 },
                 success: function(data) {
                     if (data == 'success') {
-                        $('#notif').html('<div class="alert alert-success" role="alert">Berhasil Disimpan</div>');
+                        swal("Success", "Data Berhasil Ditambahkan!", "success");
                     } else {
-                        $('#notif').html('<div class="alert alert-danger" role="alert">Gagal Disimpan</div>');
+                        swal("Failed", "Data gagal ditambahkan!");
                     }
                 },
                 cache: false,

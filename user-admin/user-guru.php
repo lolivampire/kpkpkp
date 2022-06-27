@@ -1,10 +1,10 @@
 <?php
 
 include_once "../config/koneksi.php";
+include_once "../config/library.php";
 require_once "../config/functions.php";
 
 $fun = new Functions();
-
 
 
 ?>
@@ -17,12 +17,8 @@ $fun = new Functions();
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="stylesheet" href="../style.css" />
     <title>Master User</title>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js">
 
     </script>
 </head>
@@ -74,10 +70,7 @@ $fun = new Functions();
 
             <!-- PREVIEW CARD -->
             <div class="container-fluid px-4">
-
                 <!-- PREVIEW CARD -->
-
-
                 <div class="d-flex mb-3">
                     <div class="p-2">
                         <select class="form-select" aria-label="Default select example" id="pilih_kelas">
@@ -96,7 +89,7 @@ $fun = new Functions();
                 <div class="row my-3">
                     <h3 class="fs-4 mb-3">User</h3>
                     <div class="col">
-                        <table class="table bg-white rounded shadow-sm  table-hover" id='tabel_user'>
+                        <table class="table bg-white rounded shadow-sm table-hover" id='tabel_user'>
                             <thead>
                                 <tr>
                                     <th scope="col" width="10%">ID</th>
@@ -108,11 +101,9 @@ $fun = new Functions();
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
-
                         </table>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
