@@ -222,7 +222,9 @@ $fun = new Functions();
 
         <<
         <<
-        << < HEAD
+        <<
+        <
+        HEAD
         $(document).ready(function() {
             $('#pilih_kelas').attr('disabled', true);
         }); ===
@@ -236,7 +238,8 @@ $fun = new Functions();
         // });
         >>>
         >>>
-        > 9 b10cb3fd9fd34e44bde06035b0f78c20fe7dbda
+        >
+        9 b10cb3fd9fd34e44bde06035b0f78c20fe7dbda
 
         // function updateData(id, pass, email, role, nama, tgl, jk) {
         //     $.ajax({
