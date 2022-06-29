@@ -148,4 +148,12 @@ class Functions
 		$result = $conn->query($sql);
 		return $result;
 	}
+
+	function hapusData()
+	{
+		global $conn;
+		$sql = "";
+		$result = $conn->query($sql);
+		return $result;
+	}
 }

@@ -93,7 +93,8 @@ $fun = new Functions();
                 <div class="row my-3">
                     <h3 class="fs-4 mb-3">User</h3>
                     <div class="col">
-                        <table class="table bg-white rounded shadow-sm  table-hover" id='tabel_user'>
+                        <!-- tabel admin -->
+                        <table class="table bg-white rounded shadow-sm  table-hover" id='tabel_admin'>
                             <thead>
                                 <tr>
                                     <th scope="col" width="10%">ID</th>
@@ -112,7 +113,7 @@ $fun = new Functions();
                                 if ($result && $result->num_rows > 0) {
                                     while ($row = $result->fetch_assoc()) { ?>
                                         <tr>
-                                            <th scope="row"> <?= $row["ID"]; ?> </th>
+                                            <th scope="row" id="rowAdmin"> <?= $row["ID"]; ?> </th>
                                             <td> <?= $row["nama"]; ?> </td>
                                             <td> <?= $row["email"]; ?> </td>
                                             <td> <?= $row["Pass"]; ?> </td>
@@ -145,10 +146,9 @@ $fun = new Functions();
                                                 </div>
                                                 <!-- End of Modal -->
                                                 <!-- Button trigger modal edit data -->
-                                                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editDataAdmin">
+                                                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editDataAdmin" id="btnUpdateData">
                                                     Edit
                                                 </button>
-
                                                 <a href="#" class="btn btn-danger">Hapus</a>
                                             </td>
                                         </tr>
@@ -290,7 +290,11 @@ $fun = new Functions();
             });
         }
 
-        $(document).ready(function() {
+
+
+
+
+        function updateData() {
             $.ajax({
                 method: 'POST',
                 url: '../config/controller.php',
@@ -315,6 +319,12 @@ $fun = new Functions();
                     console.error(xhr);
                 }
             });
+
+            alert("ok");
+
+        }
+
+        $(document).ready(function() {
 
             $('#absen').hide();
             $('#kelas').hide();
@@ -355,7 +365,12 @@ $fun = new Functions();
                 }
             });
 
+            $('#tabel_admin').on('click', '#btnUpdateData', function() {
+                var row = $(this).closest("tr");
+                var idItem = row.find("#rowAdmin").text();
+                alert('a');
 
+            });
 
 
         });
