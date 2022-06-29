@@ -124,7 +124,7 @@ $fun = new Functions();
                                                 <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editDataAdmin" id="btnUpdateData">
                                                     Edit
                                                 </button>
-                                                <a href="#" class="btn btn-danger">Hapus</a>
+                                                <a href="#" class="btn btn-danger" id="btnHapusData">Hapus</a>
                                             </td>
                                         </tr>
                                 <?php }
@@ -186,7 +186,7 @@ $fun = new Functions();
                             <option value="2">Perempuan</option>
                         </select>
 
-                        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="kelas">
+                        <!-- <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="kelas">
                             <option selected value="0">Kelas</option>
                             <?php
                             $result = $fun->getKelas();
@@ -197,7 +197,7 @@ $fun = new Functions();
                         <div class="input-group mb-3" id="absen">
                             <span class="input-group-text" id="basic-addon1">Absen</span>
                             <input type="number" class="form-control" placeholder=" Masukkan Absen" aria-label="Absen" aria-describedby="basic-addon1" id="absenSiswa">
-                        </div>
+                        </div> -->
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -286,8 +286,9 @@ $fun = new Functions();
                         $('#namalengkap').val(result[4]);
                         $('#tgl_lahir').val(result[5]);
                         $('#jeniskelamin').val(result[6]);
-                        $('#kelas').val(result[7]);
-                        $('#absenSiswa').val(result[8]);
+                        // $('#kelas').val(result[7]);
+                        // $('#absenSiswa').val(result[8]);
+
                     },
                     cache: false,
                     error: function(xhr, status, error) {
@@ -297,46 +298,101 @@ $fun = new Functions();
 
             });
 
+            // UPDATE DATA
+
             $('#btn_update_data').click(function() {
-                var id = $('#idUser').val('');
+                var id = $('#idUser').val();
                 var pass = $('#pass').val();
                 var email = $('#email').val();
                 var role = $('#role').val();
                 var nama = $('#namalengkap').val();
                 var tgl = $('#tgl_lahir').val();
                 var jk = $('#jeniskelamin').val();
-                var kelas = $('#kelas').val();
-                var absenSiswa = $('#absenSiswa').val();
 
-                $.ajax({
-                    url: '../config/controller.php',
-                    method: 'POST',
-                    data: {
-                        updateUser: 'update',
-                        id: id,
-                        pass: pass,
-                        email: email,
-                        role: role,
-                        nama: nama,
-                        tgl: tgl,
-                        jk: jk
-                        kelas: kelas,
-                        absenSiswa: absenSiswa
 
-                    },
-                    success: function(data) {
-                        if (data == 'success') {
-                            swal("Success", "Data Berhasil Ditambahkan!", "success");
-                            location.reload();
-                        } else {
-                            swal("Failed", "Data gagal ditambahkan!");
+
+                if (role != 0 && (id != '' || pass != '' || email != '' || nama != '' || tgl != '' || jk != 0)) {
+                    $.ajax({
+                        url: '../config/controller.php',
+                        method: 'POST',
+                        data: {
+                            updateUser: 'update',
+                            id: id,
+                            pass: pass,
+                            email: email,
+                            role: role,
+                            nama: nama,
+                            tgl: tgl,
+                            jk: jk
+
+                        },
+                        success: function(data) {
+                            if (data == 'success') {
+                                swal("Success", "Data Berhasil Diperbarui!", "success");
+                                location.reload();
+                            } else {
+                                swal("Failed", "Data gagal diperbarui!");
+                            }
+                        },
+                        cache: false,
+                        error: function(xhr, status, error) {
+                            console.error(xhr);
                         }
-                    },
-                    cache: false,
-                    error: function(xhr, status, error) {
-                        console.error(xhr);
+                    });
+                } else {
+                    console.log(id + pass + email + role + nama + tgl + jk);
+                    swal("Failed", "Masukkan Data");
+                }
+
+
+            });
+
+            // HAPUS DATA
+            $('#tabel_admin').on('click', '#btnHapusData', function() {
+                var row = $(this).closest("tr");
+                var idAdmin = row.find("#rowAdmin").text();
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            method: 'POST',
+                            url: '../config/controller.php',
+                            data: {
+                                idAdmin: idAdmin,
+                                DataDeleted: 'DataDeleted'
+                            },
+                            success: function(data) {
+                                if (data == 'success') {
+                                    swal("Success", "Data Berhasil Dihapus", "success");
+                                    location.reload();
+                                } else {
+                                    swal("Failed", "Data gagal Dihapus");
+                                }
+                            },
+                            cache: false,
+                            error: function(xhr, status, error) {
+                                console.error(xhr);
+                            }
+                        });
+                        Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        )
+
                     }
-                });
+                })
+
+
+
             });
 
             // $('#absen').hide();

@@ -55,7 +55,7 @@ if (isset($_POST['updateUser'])) {
 		$jk = $_POST['jk'];
 		$tgl = $_POST['tgl'];
 		if ($role == 1) {
-			$result = $fun->updateDataUser($id, $pass, $fun->fullemail($email), $role);
+			$result = $fun->updateDataUser($id, $pass, $email, $role);
 			$result_det = $fun->updateDataDetailUserAdmin($id, $nama, $fun->jenisKelamin($jk), $tgl);
 
 			if ($result && $result_det) {
@@ -65,7 +65,7 @@ if (isset($_POST['updateUser'])) {
 			}
 		} elseif ($role == 2) {
 			$kelas = $_POST['kelas'];
-			$result = $fun->updateDataUser($id, $pass, $fun->fullemail($email), $role);
+			$result = $fun->updateDataUser($id, $pass, $email, $role);
 			$result_det = $fun->updateDataDetailUserGuru($id, $nama, $fun->jenisKelamin($jk), $tgl, $kelas);
 
 			if ($result && $result_det) {
@@ -76,7 +76,7 @@ if (isset($_POST['updateUser'])) {
 		} elseif ($role == 3) {
 			$kelas = $_POST['kelas'];
 			$absen = $_POST['absen'];
-			$result = $fun->updateDataUser($id, $pass, $fun->fullemail($email), $role);
+			$result = $fun->updateDataUser($id, $pass, $email, $role);
 			$result_det = $fun->updateDataDetailUserSiswa($id, $nama, $fun->jenisKelamin($jk), $tgl, $kelas, $absen);
 			if ($result && $result_det) {
 				echo "success";
@@ -91,5 +91,16 @@ if (isset($_POST['DataSelected'])) {
 	$id = $_POST['idAdmin'];
 	$view = $fun->getDataUserAll($id);
 	$result = $view->fetch_assoc();
-	echo $result['id_user'] . '?' . $result['password'] . '?' . $result['email'] . '?' . $result['hak_akses'] . '?' . $result['nama'] . '?' . $result['tgl_lahir'];
+	echo $result['id_user'] . '?' . $result['password'] . '?' . $result['email'] . '?' . $result['hak_akses'] . '?' . $result['nama'] . '?' . $result['tgl_lahir'] . '?' . $fun->jenisKelaminOrigin($result['jk']);
+}
+
+if (isset($_POST['DataDeleted'])) {
+	$id = $_POST['idAdmin'];
+	$viewdet = $fun->hapusDataDetail($id);
+	$view = $fun->hapusData($id);
+	if ($view && $viewdet) {
+		echo "success";
+	} else {
+		echo "failed";
+	}
 }
