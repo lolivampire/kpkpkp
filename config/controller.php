@@ -86,7 +86,10 @@ if (isset($_POST['updateUser'])) {
 		}
 	}
 }
-if (isset($_POST('DataSelected'))) {
-	$view = getDataUserAll($id);
-	echo $view[0] . '?' . $view[1] . '?' . $view[2] . '?' . $view[3] . '?' . $view[4] . '?' . $view[5] . '?' . $view[6] . '?' . $view[7] . '?' . $view[8];
+
+if (isset($_POST['DataSelected'])) {
+	$id = $_POST['idAdmin'];
+	$view = $fun->getDataUserAll($id);
+	$result = $view->fetch_assoc();
+	echo $result['id_user'] . '?' . $result['password'] . '?' . $result['email'] . '?' . $result['hak_akses'] . '?' . $result['nama'] . '?' . $result['tgl_lahir'];
 }

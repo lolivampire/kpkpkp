@@ -19,8 +19,6 @@ $fun = new Functions();
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../style.css" />
     <title>Master User</title>
-
-    </script>
 </head>
 
 <body>
@@ -113,7 +111,7 @@ $fun = new Functions();
                                 if ($result && $result->num_rows > 0) {
                                     while ($row = $result->fetch_assoc()) { ?>
                                         <tr>
-                                            <th scope="row" id="rowAdmin"> <?= $row["ID"]; ?> </th>
+                                            <th scope="row" id="rowAdmin"><?= $row["ID"]; ?></th>
                                             <td> <?= $row["nama"]; ?> </td>
                                             <td> <?= $row["email"]; ?> </td>
                                             <td> <?= $row["Pass"]; ?> </td>
@@ -126,25 +124,6 @@ $fun = new Functions();
                                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                                     Rincian
                                                 </button>
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLabel">Rincian User</h5>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                ...
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                <button type="button" class="btn btn-primary">Save changes</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- End of Modal -->
                                                 <!-- Button trigger modal edit data -->
                                                 <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editDataAdmin" id="btnUpdateData">
                                                     Edit
@@ -235,8 +214,8 @@ $fun = new Functions();
     <!-- End of Modal -->
     <!-- end of modal edit data -->
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
+<!--     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>  
+ -->    <script>
         var el = document.getElementById("wrapper");
         var toggleButton = document.getElementById("menu-toggle");
 
@@ -244,133 +223,135 @@ $fun = new Functions();
             el.classList.toggle("toggled");
         };
 
-        $(document).ready(function() {
+        // $(document).ready(function() {
 
-            $('#pilih_kelas').attr('disabled', true);
-
-
-        });
-
-        function updateData(id, pass, email, role, nama, tgl, jk) {
-            $.ajax({
-                method: 'POST',
-                url: '../config/controller.php',
-                data: {
-                    updateUser: 'update',
-                    id: id,
-                    pass: pass,
-                    email: email,
-                    role: role,
-                    nama: nama,
-                    tgl: tgl,
-                    jk: jk
-                    kelas: kelas,
-                    absenSiswa: absenSiswa
-                },
-                success: function(data) {
-                    if (data == 'success') {
-                        swal("Success", "Data Berhasil Ditambahkan!", "success");
-                        $('#idUser').val('');
-                        $('#pass').val('');
-                        $('#email').val('');
-                        $('#role').val(0);
-                        $('#namalengkap').val('');
-                        $('#tgl_lahir').val('');
-                        $('#jeniskelamin').val(0);
-                        $('#kelas').val(0);
-                        $('#absenSiswa').val('');
-                    } else {
-                        swal("Failed", "Data gagal ditambahkan!");
-                    }
-                },
-                cache: false,
-                error: function(xhr, status, error) {
-                    console.error(xhr);
-                }
-            });
-        }
+        //     $('#pilih_kelas').attr('disabled', true);
 
 
+        // });
+
+        // function updateData(id, pass, email, role, nama, tgl, jk) {
+        //     $.ajax({
+        //         method: 'POST',
+        //         url: '../config/controller.php',
+        //         data: {
+        //             updateUser: 'update',
+        //             id: id,
+        //             pass: pass,
+        //             email: email,
+        //             role: role,
+        //             nama: nama,
+        //             tgl: tgl,
+        //             jk: jk
+        //             kelas: kelas,
+        //             absenSiswa: absenSiswa
+        //         },
+        //         success: function(data) {
+        //             if (data == 'success') {
+        //                 swal("Success", "Data Berhasil Ditambahkan!", "success");
+        //                 $('#idUser').val('');
+        //                 $('#pass').val('');
+        //                 $('#email').val('');
+        //                 $('#role').val(0);
+        //                 $('#namalengkap').val('');
+        //                 $('#tgl_lahir').val('');
+        //                 $('#jeniskelamin').val(0);
+        //                 $('#kelas').val(0);
+        //                 $('#absenSiswa').val('');
+        //             } else {
+        //                 swal("Failed", "Data gagal ditambahkan!");
+        //             }
+        //         },
+        //         cache: false,
+        //         error: function(xhr, status, error) {
+        //             console.error(xhr);
+        //         }
+        //     });
+        // }
 
 
 
-        function updateData() {
-            $.ajax({
-                method: 'POST',
-                url: '../config/controller.php',
-                data: {
-                    DataSelected: DataSelected
 
-                },
-                success: function(data) {
-                    var result = split('?', data);
-                    $('#idUser').val(result[0]);
-                    $('#pass').val(result[1]);
-                    $('#email').val(result[2]);
-                    $('#role').val(result[3]);
-                    $('#namalengkap').val(result[4]);
-                    $('#tgl_lahir').val(result[5]);
-                    $('#jeniskelamin').val(result[6]);
-                    $('#kelas').val(result[7]);
-                    $('#absenSiswa').val(result[8]);
-                },
-                cache: false,
-                error: function(xhr, status, error) {
-                    console.error(xhr);
-                }
-            });
 
-            alert("ok");
+        // function updateData() {
+            
 
-        }
+        // }
 
         $(document).ready(function() {
-
-            $('#absen').hide();
-            $('#kelas').hide();
-            $('#role').change(function() {
-                if ($(this).val() == 3) {
-                    $('#absen').show();
-                    $('#kelas').show();
-                } else if ($(this).val() == 2) {
-                    $('#kelas').show();
-                    $('#absen').hide();
-                } else {
-                    $('#absen').hide();
-                    $('#kelas').hide();
-                }
-            });
-
-            $('#update_data').click(function() {
-                var id = $('#idUser').val();
-                var pass = $('#pass').val();
-                var email = $('#email').val();
-                var role = $('#role').val();
-                var nama = $('#namalengkap').val();
-                var tgl = $('#tgl_lahir').val();
-                var jk = $('#jeniskelamin').val();
-                var kelas = $('#kelas').val();
-                var absen = $('#absenSiswa').val();
-
-                if (role != 0 && (id != '' || pass != '' || email != '' || nama != '' || tgl != '' || jk != 0)) {
-                    if (role == 2 && kelas != 0) {
-                        simpan(id, pass, email, role, nama, tgl, jk, kelas, absen);
-                    } else if (role == 3 && kelas != 0 && absen != '') {
-                        simpan(id, pass, email, role, nama, tgl, jk, kelas, absen);
-                    } else {
-                        simpan(id, pass, email, role, nama, tgl, jk, kelas, absen);
-                    }
-                } else {
-                    alert('Masukkan Data');
-                }
-            });
+            // alert('ok');
 
             $('#tabel_admin').on('click', '#btnUpdateData', function() {
                 var row = $(this).closest("tr");
-                var idItem = row.find("#rowAdmin").text();
-                alert('a');
+                var idAdmin = row.find("#rowAdmin").text();
+
+                $.ajax({
+                    method: 'POST',
+                    url: '../config/controller.php',
+                    data: {
+                        idAdmin: idAdmin,
+                        DataSelected: 'DataSelected'
+                    },
+                    success: function(data) {
+                        var result = data.split('?');
+                        $('#idUser').val(result[0]);
+                        $('#pass').val(result[1]);
+                        $('#email').val(result[2]);
+                        $('#role').val(result[3]);
+                        $('#namalengkap').val(result[4]);
+                        $('#tgl_lahir').val(result[5]);
+                        // $('#jeniskelamin').val(result[6]);
+                        // $('#kelas').val(result[7]);
+                        // $('#absenSiswa').val(result[8]);
+                    },
+                    cache: false,
+                    error: function(xhr, status, error) {
+                        console.error(xhr);
+                    }
+                });
 
             });
+
+            // $('#absen').hide();
+            // $('#kelas').hide();
+            // $('#role').change(function() {
+            //     if ($(this).val() == 3) {
+            //         $('#absen').show();
+            //         $('#kelas').show();
+            //     } else if ($(this).val() == 2) {
+            //         $('#kelas').show();
+            //         $('#absen').hide();
+            //     } else {
+            //         $('#absen').hide();
+            //         $('#kelas').hide();
+            //     }
+            // });
+
+            // $('#update_data').click(function() {
+            //     var id = $('#idUser').val();
+            //     var pass = $('#pass').val();
+            //     var email = $('#email').val();
+            //     var role = $('#role').val();
+            //     var nama = $('#namalengkap').val();
+            //     var tgl = $('#tgl_lahir').val();
+            //     var jk = $('#jeniskelamin').val();
+            //     var kelas = $('#kelas').val();
+            //     var absen = $('#absenSiswa').val();
+
+            //     if (role != 0 && (id != '' || pass != '' || email != '' || nama != '' || tgl != '' || jk != 0)) {
+            //         if (role == 2 && kelas != 0) {
+            //             simpan(id, pass, email, role, nama, tgl, jk, kelas, absen);
+            //         } else if (role == 3 && kelas != 0 && absen != '') {
+            //             simpan(id, pass, email, role, nama, tgl, jk, kelas, absen);
+            //         } else {
+            //             simpan(id, pass, email, role, nama, tgl, jk, kelas, absen);
+            //         }
+            //     } else {
+            //         alert('Masukkan Data');
+            //     }
+            // });
+
+            
 
 
         });
