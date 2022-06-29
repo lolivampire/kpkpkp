@@ -1,8 +1,8 @@
 <?php
 
-require_once "../config/koneksi.php";
-require_once "../config/functions.php";
+include_once "../config/koneksi.php";
 include_once "../config/library.php";
+require_once "../config/functions.php";
 
 $fun = new Functions();
 
@@ -19,8 +19,6 @@ $fun = new Functions();
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../style.css" />
     <title>Master User</title>
-
-    </script>
 </head>
 
 <body>
@@ -70,12 +68,8 @@ $fun = new Functions();
 
             <!-- PREVIEW CARD -->
             <div class="container-fluid px-4">
-
                 <!-- PREVIEW CARD -->
-
-
                 <div class="d-flex mb-3">
-
                     <div class="p-2">
                         <select class="form-select" aria-label="Default select example" id="pilih_kelas">
                             <option selected value="0">Semua Kelas</option>
@@ -245,10 +239,7 @@ $fun = new Functions();
         };
 
         $(document).ready(function() {
-
             $('#pilih_kelas').attr('disabled', true);
-
-
         });
 
         function updateData(id, pass, email, role, nama, tgl, jk) {
@@ -290,10 +281,6 @@ $fun = new Functions();
             });
         }
 
-
-
-
-
         function updateData() {
             $.ajax({
                 method: 'POST',
@@ -319,7 +306,6 @@ $fun = new Functions();
                     console.error(xhr);
                 }
             });
-
             alert("ok");
 
         }
@@ -371,7 +357,6 @@ $fun = new Functions();
                 alert('a');
 
             });
-
 
         });
     </script>
