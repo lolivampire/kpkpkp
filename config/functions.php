@@ -158,6 +158,14 @@ class Functions
 		return $result;
 	}
 
+	function getDataGuru($id)
+	{
+		global $conn;
+		$sql = "SELECT us.id_user AS ID, us.password AS Pass, us.email, us.hak_akses,du.nama, du.tgl_lahir, du.jk, du.id_kelas FROM user_sistem us, detail_user du WHERE us.id_user=du.id_user AND us.hak_akses = 2 AND us.id_user='$id'";
+		$result = $conn->query($sql);
+		return $result;
+	}
+
 	function hapusData($id)
 	{
 		global $conn;
