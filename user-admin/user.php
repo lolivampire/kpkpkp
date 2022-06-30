@@ -91,17 +91,16 @@ $fun = new Functions();
                         <table class="table bg-white rounded shadow-sm  table-hover" id='tabel_admin'>
                             <thead>
                                 <tr>
-                                    <th scope="col" width="10%">ID</th>
-                                    <th scope="col" width="20%">Nama</th>
-                                    <th scope="col" width="10%">Email</th>
-                                    <th scope="col" width="10%">Password</th>
-                                    <th scope="col" width="10%">Hak Akses</th>
-                                    <th scope="col" width="20%">Date Created</th>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Nama</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Password</th>
+                                    <th scope="col">Hak Akses</th>
+                                    <th scope="col">Date Created</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-
                                 <?php
                                 $result = $fun->getUserAdmin();
                                 if ($result && $result->num_rows > 0) {
@@ -185,19 +184,6 @@ $fun = new Functions();
                             <option value="1">Laki-laki</option>
                             <option value="2">Perempuan</option>
                         </select>
-
-                        <!-- <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="kelas">
-                            <option selected value="0">Kelas</option>
-                            <?php
-                            $result = $fun->getKelas();
-                            while ($row = $result->fetch_assoc()) { ?>
-                                <option value="<?php echo $row['id_kelas'] ?>"> <?php echo $row['nama'] ?> </option>
-                            <?php } ?>
-                        </select>
-                        <div class="input-group mb-3" id="absen">
-                            <span class="input-group-text" id="basic-addon1">Absen</span>
-                            <input type="number" class="form-control" placeholder=" Masukkan Absen" aria-label="Absen" aria-describedby="basic-addon1" id="absenSiswa">
-                        </div> -->
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -258,11 +244,7 @@ $fun = new Functions();
         //     });
         // }
 
-
-
-
-
-
+        // tampil data
         $(document).ready(function() {
             // alert('ok');
 
