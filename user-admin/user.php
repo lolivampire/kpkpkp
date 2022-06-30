@@ -202,7 +202,7 @@ $fun = new Functions();
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success" id="update_data">Save changes</button>
+                    <button type="button" class="btn btn-success" id="btn_update_data">Save changes</button>
                 </div>
             </div>
         </div>
@@ -210,8 +210,6 @@ $fun = new Functions();
     <!-- End of Modal -->
     <!-- end of modal edit data -->
 
-    <!--     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>  
- -->
     <script>
         var el = document.getElementById("wrapper");
         var toggleButton = document.getElementById("menu-toggle");
@@ -220,7 +218,10 @@ $fun = new Functions();
             el.classList.toggle("toggled");
         };
 
+<<<<<<< HEAD
     
+=======
+>>>>>>> da5054a27d7cc970c3a82274e104eb8f0a4601c7
 
         // function updateData(id, pass, email, role, nama, tgl, jk) {
         //     $.ajax({
@@ -265,10 +266,6 @@ $fun = new Functions();
 
 
 
-        // function updateData() {
-
-
-        // }
 
         $(document).ready(function() {
             // alert('ok');
@@ -293,9 +290,9 @@ $fun = new Functions();
                         $('#role').val(result[3]);
                         $('#namalengkap').val(result[4]);
                         $('#tgl_lahir').val(result[5]);
-                        // $('#jeniskelamin').val(result[6]);
-                        // $('#kelas').val(result[7]);
-                        // $('#absenSiswa').val(result[8]);
+                        $('#jeniskelamin').val(result[6]);
+                        $('#kelas').val(result[7]);
+                        $('#absenSiswa').val(result[8]);
                     },
                     cache: false,
                     error: function(xhr, status, error) {
@@ -303,6 +300,48 @@ $fun = new Functions();
                     }
                 });
 
+            });
+
+            $('#btn_update_data').click(function() {
+                var id = $('#idUser').val('');
+                var pass = $('#pass').val();
+                var email = $('#email').val();
+                var role = $('#role').val();
+                var nama = $('#namalengkap').val();
+                var tgl = $('#tgl_lahir').val();
+                var jk = $('#jeniskelamin').val();
+                var kelas = $('#kelas').val();
+                var absenSiswa = $('#absenSiswa').val();
+
+                $.ajax({
+                    url: '../config/controller.php',
+                    method: 'POST',
+                    data: {
+                        updateUser: 'update',
+                        id: id,
+                        pass: pass,
+                        email: email,
+                        role: role,
+                        nama: nama,
+                        tgl: tgl,
+                        jk: jk
+                        kelas: kelas,
+                        absenSiswa: absenSiswa
+
+                    },
+                    success: function(data) {
+                        if (data == 'success') {
+                            swal("Success", "Data Berhasil Ditambahkan!", "success");
+                            location.reload();
+                        } else {
+                            swal("Failed", "Data gagal ditambahkan!");
+                        }
+                    },
+                    cache: false,
+                    error: function(xhr, status, error) {
+                        console.error(xhr);
+                    }
+                });
             });
 
             // $('#absen').hide();
