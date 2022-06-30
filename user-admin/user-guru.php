@@ -1,5 +1,4 @@
 <?php
-
 include_once "../config/koneksi.php";
 include_once "../config/library.php";
 require_once "../config/functions.php";
@@ -18,7 +17,7 @@ $fun = new Functions();
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../style.css" />
-    <title>Master User</title>
+    <title>Master User Guru</title>
 
     </script>
 </head>
@@ -109,6 +108,7 @@ $fun = new Functions();
     </div>
     <!-- /#page-content-wrapper -->
     </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
     <script>

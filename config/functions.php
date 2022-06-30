@@ -111,6 +111,15 @@ class Functions
 		}
 	}
 
+	function jenisKelaminOrigin($id)
+	{
+		if ($id == 'LK') {
+			return 1;
+		} else {
+			return 2;
+		}
+	}
+
 	function updateDataUser($id, $pass, $email, $role)
 	{
 		global $conn;
@@ -119,24 +128,24 @@ class Functions
 		return $result;
 	}
 
-	function updateDataDetailUserAdmin($id, $nama, $jk, $tgl, $kelas, $absen)
+	function updateDataDetailUserAdmin($id, $nama, $jk, $tgl)
 	{
 		global $conn;
-		$sql = "UPDATE detail_user SET nama='$nama',jk='$jk',tgl_lahir='$tgl'  WHERE id_user='$id";
+		$sql = "UPDATE detail_user SET nama='$nama',jk='$jk',tgl_lahir='$tgl'  WHERE id_user='$id'";
 		$result = $conn->query($sql);
 		return $result;
 	}
-	function updateDataDetailUserGuru()
+	function updateDataDetailUserGuru($id, $nama, $jk, $tgl, $kelas)
 	{
 		global $conn;
-		$sql = "UPDATE detail_user SET nama='$nama',jk='$jk',tgl-lahi='$tgl',id_kelas='$kelas' WHERE id_user='$id";
+		$sql = "UPDATE detail_user SET nama='$nama',jk='$jk',tgl_lahir='$tgl',id_kelas='$kelas' WHERE id_user='$id'";
 		$result = $conn->query($sql);
 		return $result;
 	}
-	function updateDataDetailUserSiswa()
+	function updateDataDetailUserSiswa($id, $nama, $jk, $tgl, $kelas, $absen)
 	{
 		global $conn;
-		$sql = "UPDATE detail_user SET nama='$nama',jk='$jk',tgl-lahi='$tgl',id_kelas='$kelas',absen='$absen'  WHERE id_user='$id";
+		$sql = "UPDATE detail_user SET nama='$nama',jk='$jk',tgl_lahir='$tgl',id_kelas='$kelas',absen='$absen'  WHERE id_user='$id'";
 		$result = $conn->query($sql);
 		return $result;
 	}
@@ -149,10 +158,17 @@ class Functions
 		return $result;
 	}
 
-	function hapusData()
+	function hapusData($id)
 	{
 		global $conn;
-		$sql = "";
+		$sql = "DELETE FROM user_sistem WHERE id_user='$id'";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	function hapusDataDetail($id)
+	{
+		global $conn;
+		$sql = "DELETE FROM detail_user WHERE id_user='$id'";
 		$result = $conn->query($sql);
 		return $result;
 	}
