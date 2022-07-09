@@ -1,3 +1,30 @@
+<!DOCTYPE html>
+	<html lang="en">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="style.css" />
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<style>
+			.modalBackground {
+    background-color:white;
+    filter:alpha(opacity=100);
+    opacity:7;
+}
+.modalPopup {
+    background-color:#ffffdd;
+    border-width:3px;
+    border-style:solid;
+    border-color:Gray;
+    padding:3px;
+    width:250px;
+}
+		</style>
+	</head>
+	<body>
 <?php
 
 include 'config/koneksi.php';
@@ -12,18 +39,7 @@ if (isset($_POST['kelasPilih'])) {
 	$pilihanKelas = $_POST['kelasPilih'];
 
 ?>
-	<!DOCTYPE html>
-	<html lang="en">
-
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="../style.css" />
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-		<title>Tabel Guru & Siswa</title>
-	</head>
+	
 
 	<!-- table guru -->
 	<table class="table bg-white rounded shadow-sm table-hover">
@@ -98,83 +114,6 @@ if (isset($_POST['kelasPilih'])) {
 			?>
 		</tbody>
 	</table>
-
-	<!-- modal edit data -->
-	<!-- Modal -->
-	<div class="modal fade" id="editDataGuru" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Edit Data User</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<form>
-						<div class="input-group mb-3">
-							<span class="input-group-text" id="basic-addon1">ID User</span>
-							<input type="text" class="form-control" placeholder=" Masukkan ID User" aria-label="ID User" aria-describedby="basic-addon1" id="idUser">
-						</div>
-						<div class="input-group mb-3">
-							<span class="input-group-text" id="basic-addon1">Password</span>
-							<input type="text" class="form-control" placeholder=" Masukkan Password" aria-label="Password" aria-describedby="basic-addon1" id="pass">
-						</div>
-
-						<div class="input-group mb-3">
-							<input type="text" class="form-control" placeholder="Masukkan Email" aria-label="Email" aria-describedby="basic-addon2" id="email">
-							<span class="input-group-text" id="basic-addon2">@gmail.com</span>
-						</div>
-
-						<select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="role" disabled>
-							<option selected value="0">Role</option>
-							<option value="1">Admin</option>
-							<option value="2">Guru</option>
-							<option value="3">Siswa</option>
-						</select>
-						<div class="input-group mb-3">
-							<span class="input-group-text" id="basic-addon1">NAMA LENGKAP</span>
-							<input type="text" class="form-control" placeholder=" Nama Lengkap" aria-label="Nama Lengkap" aria-describedby="basic-addon1" id="namalengkap">
-						</div>
-						<div class="input-group mb-3">
-							<span class="input-group-text" id="basic-addon1">Tanggal Lahir</span>
-							<input type="date" name="admission_date" id="tgl_lahir" class="form-control">
-						</div>
-						<select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="jeniskelamin">
-							<option selected value="0">Jenis Kelamin</option>
-							<option value="1">Laki-laki</option>
-							<option value="2">Perempuan</option>
-						</select>
-						<select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="kelas">
-							<option selected value="0">Kelas</option>
-							<?php
-							$result = $fun->getKelas();
-							while ($row = $result->fetch_assoc()) { ?>
-								<option value="<?php echo $row['id_kelas'] ?>"> <?php echo $row['nama'] ?> </option>
-							<?php } ?>
-						</select>
-						<div class="input-group mb-3" id="absen">
-							<span class="input-group-text" id="basic-addon1">Absen</span>
-							<input type="number" class="form-control" placeholder=" Masukkan Absen" aria-label="Absen" aria-describedby="basic-addon1" id="absenSiswa">
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-success" id="btn_update_data">Save changes</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- End of Modal -->
-	<!-- end of modal edit data -->
-
-
-
-
-
-
-
-
-
 
 
 	<!-- ================================================================ TABEL SISWA ===================================================================-->
@@ -257,5 +196,73 @@ if (isset($_POST['SiswakelasPilih'])) {
 <?php
 }
 ?>
+<!-- modal edit data -->
+	<!-- Modal -->
+	<div class="modal fade modalBackground" id="editDataGuru" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Edit Data User</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="basic-addon1">ID User</span>
+							<input type="text" class="form-control" placeholder=" Masukkan ID User" aria-label="ID User" aria-describedby="basic-addon1" id="idUser">
+						</div>
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="basic-addon1">Password</span>
+							<input type="text" class="form-control" placeholder=" Masukkan Password" aria-label="Password" aria-describedby="basic-addon1" id="pass">
+						</div>
+
+						<div class="input-group mb-3">
+							<input type="text" class="form-control" placeholder="Masukkan Email" aria-label="Email" aria-describedby="basic-addon2" id="email">
+							<span class="input-group-text" id="basic-addon2">@gmail.com</span>
+						</div>
+
+						<select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="role" disabled>
+							<option selected value="0">Role</option>
+							<option value="1">Admin</option>
+							<option value="2">Guru</option>
+							<option value="3">Siswa</option>
+						</select>
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="basic-addon1">NAMA LENGKAP</span>
+							<input type="text" class="form-control" placeholder=" Nama Lengkap" aria-label="Nama Lengkap" aria-describedby="basic-addon1" id="namalengkap">
+						</div>
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="basic-addon1">Tanggal Lahir</span>
+							<input type="date" name="admission_date" id="tgl_lahir" class="form-control">
+						</div>
+						<select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="jeniskelamin">
+							<option selected value="0">Jenis Kelamin</option>
+							<option value="1">Laki-laki</option>
+							<option value="2">Perempuan</option>
+						</select>
+						<select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="kelas">
+							<option selected value="0">Kelas</option>
+							<?php
+							$result = $fun->getKelas();
+							while ($row = $result->fetch_assoc()) { ?>
+								<option value="<?php echo $row['id_kelas'] ?>"> <?php echo $row['nama'] ?> </option>
+							<?php } ?>
+						</select>
+						<div class="input-group mb-3" id="absen">
+							<span class="input-group-text" id="basic-addon1">Absen</span>
+							<input type="number" class="form-control" placeholder=" Masukkan Absen" aria-label="Absen" aria-describedby="basic-addon1" id="absenSiswa">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-success" id="btn_update_data">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End of Modal -->
+	<!-- end of modal edit data -->
+</body>
 
 	</html>
