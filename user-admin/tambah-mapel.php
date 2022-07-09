@@ -65,7 +65,6 @@ $fun = new Functions();
             <!-- PREVIEW CARD -->
             <div class="container-fluid px-4">
                 <div class="row my-3">
-                    <!-- <h3 class="fs-4 mb-3">SUB JUDUL HALAMAN</h3> -->
                     <div class="d-flex mb-3">
                         <div class="">
                             <a href="../user-admin/kbm.php" class="btn btn-success">Kembali</a>
@@ -112,6 +111,7 @@ $fun = new Functions();
                                 </div>
                                 <div class="card-body">
                                     <table class="table bg-white rounded shadow-lg  table-hover" id='tabel_kbm'>
+                                        <caption>Tabel Mata pelajaran</caption>
                                         <thead>
                                             <tr>
                                                 <th scope="col-auto">ID Mapel</th>

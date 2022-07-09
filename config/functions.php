@@ -230,7 +230,7 @@ class Functions
 	function addDataKBM($idKelas, $idGuru, $idMapel)
 	{
 		global $conn;
-		$sql = "INSERT INTO user_sistem VALUE ('','$idKelas','$idGuru','$idMapel')";
+		$sql = "INSERT INTO kbm VALUE ('$idKelas','$idGuru','$idMapel')";
 		$result = $conn->query($sql);
 		return $result;
 	}

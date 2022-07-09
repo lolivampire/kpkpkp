@@ -143,10 +143,10 @@ $funs = new FunctionsDua();
                 method: 'POST',
                 url: '../config/controller.php',
                 data: {
-                    tambahdataKBM: 'tambahKBM',
+                    dataKBM: 'tambahKBM',
                     idKelas: idKelas,
-                    idGuru: idGuru,
-                    idMapel: idMapel
+                    idMapel: idMapel,
+                    idGuru: idGuru
                 },
                 success: function(data) {
                     if (data == 'success') {

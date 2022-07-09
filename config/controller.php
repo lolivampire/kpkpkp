@@ -156,14 +156,13 @@ if (isset($_POST['DataDeleted'])) {
 	}
 }
 
-if (isset($_POST['tambahdataKBM'])) {
-	if ($_POST['tambahdataKBM'] == 'tambahKBM') {
+if (isset($_POST['dataKBM'])) {
+	if ($_POST['dataKBM'] == 'tambahKBM') {
 		$idKelas = $_POST['idKelas'];
 		$idGuru = $_POST['idGuru'];
 		$idMapel = $_POST['idMapel'];
 
-
-		$result = $funs->addDataKBM('', $idKelas, $idGuru, $idMapel);
+		$result = $funs->addDataKBM($idKelas, $idMapel, $idGuru);
 		if ($result) {
 			echo "success";
 		} else {
