@@ -39,10 +39,26 @@ if (isset($_POST['kelasPilih'])) {
 	$pilihanKelas = $_POST['kelasPilih'];
 
 ?>
+<<<<<<< HEAD
 	
+=======
+	<!DOCTYPE html>
+	<html lang="en">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="../style.css" />
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+		<title>Tabel Guru</title>
+	</head>
+>>>>>>> 052de1f628345a1baacac07f6811b0151e97f93f
 
 	<!-- table guru -->
-	<table class="table bg-white rounded shadow-sm table-hover">
+	<table class="table bg-white rounded shadow-sm table-hover" id="tabel_guru">
 		<thead>
 			<tr>
 				<th scope="col">ID</th>
@@ -61,7 +77,7 @@ if (isset($_POST['kelasPilih'])) {
 				while ($roww = $sql1->fetch_assoc()) {
 			?>
 					<tr>
-						<th scope="row"> <?= $roww["ID"]; ?> </th>
+						<th scope="row" id="rowGuru"><?= $roww["ID"]; ?></th>
 						<td> <?= $roww["nama"]; ?> </td>
 						<td> <?= $roww["email"]; ?> </td>
 						<td> <?= $roww["Pass"]; ?> </td>
@@ -71,14 +87,14 @@ if (isset($_POST['kelasPilih'])) {
 						<td> <?= $roww["date_created"]; ?> </td>
 						<td>
 							<!-- Button trigger modal -->
-							<button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+							<a class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
 								Rincian
-							</button>
-							<!-- Button trigger modal edit data -->
-							<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editDataGuru" id="btnUpdateData">
+							</a>
+							<!-- a trigger modal edit data -->
+							<a class="btn btn-info" href="update-data.php?id=<?= $roww["ID"]; ?>">
 								Edit
-							</button>
-							<a href="#" class="btn btn-danger" id="btnHapusData">Hapus</a>
+							</a>
+							<button class="btn btn-danger" id="btnHapusData1">Hapus</button>
 						<td>
 					</tr>
 				<?php
@@ -88,7 +104,7 @@ if (isset($_POST['kelasPilih'])) {
 				while ($roww = $sql1->fetch_assoc()) {
 				?>
 					<tr>
-						<th scope="row"> <?= $roww["ID"]; ?> </th>
+						<th scope="row" id="rowGuru"><?= $roww["ID"]; ?></th>
 						<td> <?= $roww["nama"]; ?> </td>
 						<td> <?= $roww["email"]; ?> </td>
 						<td> <?= $roww["Pass"]; ?> </td>
@@ -98,14 +114,14 @@ if (isset($_POST['kelasPilih'])) {
 						<td> <?= $roww["date_created"]; ?> </td>
 						<td>
 							<!-- Button trigger modal -->
-							<button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+							<a class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
 								Rincian
-							</button>
-							<!-- Button trigger modal edit data -->
-							<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editDataGuru" id="btnUpdateData">
+							</a>
+							<!-- a trigger modal edit data -->
+							<a class="btn btn-info" href="update-data.php?id=<?= $roww["ID"]; ?>">
 								Edit
-							</button>
-							<a href="#" class="btn btn-danger">Hapus</a>
+							</a>
+							<button class="btn btn-danger" id="btnHapusData1">Hapus</button>
 						<td>
 					</tr>
 			<?php
@@ -115,8 +131,53 @@ if (isset($_POST['kelasPilih'])) {
 		</tbody>
 	</table>
 
+	<script>
+		$(document).ready(function() {
+			$('#tabel_guru').on('click', '#btnHapusData1', function() {
+				var row = $(this).closest("tr");
+				var idUser = row.find("#rowGuru").text();
 
-	<!-- ================================================================ TABEL SISWA ===================================================================-->
+
+				Swal.fire({
+					title: 'Are you sure?',
+					text: "You won't be able to revert this!",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Yes, delete it!'
+				}).then((result) => {
+					if (result.isConfirmed) {
+						$.ajax({
+							method: 'POST',
+							url: '../config/controller.php',
+							data: {
+								idUser: idUser,
+								DataDeleted: 'DataDeleted'
+							},
+							success: function(data) {
+								if (data == 'success') {
+									swal("Success", "Data Berhasil Dihapus", "success");
+									location.reload();
+								} else {
+									swal("Failed", "Data gagal Dihapus");
+								}
+							},
+							cache: false,
+							error: function(xhr, status, error) {
+								console.error(xhr);
+							}
+						});
+						Swal.fire(
+							'Deleted!',
+							'Your file has been deleted.',
+							'success'
+						)
+					}
+				})
+			});
+		});
+	</script>
 
 <?php }
 
@@ -127,10 +188,11 @@ if (isset($_POST['SiswakelasPilih'])) {
 
 	<head>
 		<link rel="stylesheet" href="../style.css" />
+		<title>Tabek Siswa</title>
 	</head>
 
 	<!-- table siswa -->
-	<table class="table bg-white rounded shadow-sm table-hover">
+	<table class="table bg-white rounded shadow-sm table-hover" id="tabel_siswa">
 		<thead>
 			<tr>
 				<th scope="col">ID</th>
@@ -151,7 +213,7 @@ if (isset($_POST['SiswakelasPilih'])) {
 		?>
 
 				<tr>
-					<th scope="row"> <?= $roww["ID"]; ?> </th>
+					<th scope="row" id="rowSiswa"><?= $roww["ID"]; ?></th>
 					<td> <?= $roww["nama"]; ?> </td>
 					<td> <?= $roww["email"]; ?> </td>
 					<td> <?= $roww["Pass"]; ?> </td>
@@ -161,8 +223,8 @@ if (isset($_POST['SiswakelasPilih'])) {
 					<td> <?= $roww["date_created"]; ?> </td>
 					<td>
 						<a href="#" class="btn btn-warning">Rincian</a>
-						<a href="#" class="btn btn-primary">Edit</a>
-						<a href="#" class="btn btn-danger">Hapus</a>
+						<a href="update-data-siswa.php?id=<?= $roww["ID"]; ?>" class="btn btn-primary">Edit</a>
+						<a href="#" class="btn btn-danger" id="btnHapusData2">Hapus</a>
 					<td>
 				</tr>
 			<?php
@@ -172,7 +234,7 @@ if (isset($_POST['SiswakelasPilih'])) {
 			while ($roww = $sql1->fetch_assoc()) {
 			?>
 				<tr>
-					<th scope="row"> <?= $roww["ID"]; ?> </th>
+					<th scope="row" id="rowSiswa"><?= $roww["ID"]; ?></th>
 					<td> <?= $roww["nama"]; ?> </td>
 					<td> <?= $roww["email"]; ?> </td>
 					<td> <?= $roww["Pass"]; ?> </td>
@@ -182,8 +244,8 @@ if (isset($_POST['SiswakelasPilih'])) {
 					<td> <?= $roww["date_created"]; ?> </td>
 					<td>
 						<a href="#" class="btn btn-warning">Rincian</a>
-						<a href="#" class="btn btn-primary">Edit</a>
-						<a href="#" class="btn btn-danger">Hapus</a>
+						<a href="update-data-siswa.php?id=<?= $roww["ID"]; ?>" class="btn btn-primary">Edit</a>
+						<a href="#" class="btn btn-danger" id="btnHapusData2">Hapus</a>
 					<td>
 				</tr>
 		<?php
@@ -193,6 +255,53 @@ if (isset($_POST['SiswakelasPilih'])) {
 
 	</table>
 
+	<script>
+		$(document).ready(function() {
+			$('#tabel_siswa').on('click', '#btnHapusData2', function() {
+				var row = $(this).closest("tr");
+				var idUser = row.find("#rowSiswa").text();
+
+
+				Swal.fire({
+					title: 'Are you sure?',
+					text: "You won't be able to revert this!",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Yes, delete it!'
+				}).then((result) => {
+					if (result.isConfirmed) {
+						$.ajax({
+							method: 'POST',
+							url: '../config/controller.php',
+							data: {
+								idUser: idUser,
+								DataDeleted: 'DataDeleted'
+							},
+							success: function(data) {
+								if (data == 'success') {
+									swal("Success", "Data Berhasil Dihapus", "success");
+									location.reload();
+								} else {
+									swal("Failed", "Data gagal Dihapus");
+								}
+							},
+							cache: false,
+							error: function(xhr, status, error) {
+								console.error(xhr);
+							}
+						});
+						Swal.fire(
+							'Deleted!',
+							'Your file has been deleted.',
+							'success'
+						)
+					}
+				})
+			});
+		});
+	</script>
 <?php
 }
 ?>
@@ -264,5 +373,6 @@ if (isset($_POST['SiswakelasPilih'])) {
 	<!-- End of Modal -->
 	<!-- end of modal edit data -->
 </body>
+
 
 	</html>

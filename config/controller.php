@@ -1,7 +1,9 @@
 <?php
 
 require_once "../config/functions.php";
+require_once "../config/functions2.php";
 $fun = new Functions();
+$funs = new FunctionsDua();
 
 if (isset($_POST['simpanUser'])) {
 	if ($_POST['simpanUser'] == 'add') {
@@ -12,6 +14,8 @@ if (isset($_POST['simpanUser'])) {
 		$nama = $_POST['nama'];
 		$jk = $_POST['jk'];
 		$tgl = $_POST['tgl'];
+
+
 		if ($role == 1) {
 			$result = $fun->simpanUser($id, $pass, $fun->fullemail($email), $role);
 			$result_det = $fun->simpanUserAdmin($id, $nama, $fun->jenisKelamin($jk), $tgl);
@@ -54,6 +58,53 @@ if (isset($_POST['updateUser'])) {
 		$nama = $_POST['nama'];
 		$jk = $_POST['jk'];
 		$tgl = $_POST['tgl'];
+
+
+		if ($role == 1) {
+			$result = $fun->updateDataUser($id, $pass, $email, $role);
+			$result_det = $fun->updateDataDetailUserAdmin($id, $nama, $fun->jenisKelamin($jk), $tgl);
+
+			if ($result && $result_det) {
+				echo "success";
+			} else {
+				echo "failed";
+			}
+		} elseif ($role == 2) {
+			$kelas = $_POST['kelas'];
+			$result = $fun->updateDataUser($id, $pass, $email, $role);
+			$result_det = $fun->updateDataDetailUserGuru($id, $nama, $fun->jenisKelamin($jk), $tgl, $kelas);
+
+			if ($result && $result_det) {
+				echo "success";
+			} else {
+				echo "failed";
+			}
+		} elseif ($role == 3) {
+			$kelas = $_POST['kelas'];
+			$absen = $_POST['absen'];
+			$result = $fun->updateDataUser($id, $pass, $email, $role);
+			$result_det = $fun->updateDataDetailUserSiswa($id, $nama, $fun->jenisKelamin($jk), $tgl, $kelas, $absen);
+			if ($result && $result_det) {
+				echo "success";
+			} else {
+				echo "failed";
+			}
+		}
+	}
+}
+
+if (isset($_POST['updateGuru'])) {
+	if ($_POST['updateGuru'] == 'update') {
+		$id = $_POST['id'];
+		$pass = $_POST['pass'];
+		$email = $_POST['email'];
+		$role = $_POST['role'];
+		$nama = $_POST['nama'];
+		$jk = $_POST['jk'];
+		$tgl = $_POST['tgl'];
+		$kelas = $_POST['kelas'];
+
+
 		if ($role == 1) {
 			$result = $fun->updateDataUser($id, $pass, $email, $role);
 			$result_det = $fun->updateDataDetailUserAdmin($id, $nama, $fun->jenisKelamin($jk), $tgl);
@@ -95,12 +146,27 @@ if (isset($_POST['DataSelected'])) {
 }
 
 if (isset($_POST['DataDeleted'])) {
-	$id = $_POST['idAdmin'];
+	$id = $_POST['idUser'];
 	$viewdet = $fun->hapusDataDetail($id);
 	$view = $fun->hapusData($id);
 	if ($view && $viewdet) {
 		echo "success";
 	} else {
 		echo "failed";
+	}
+}
+
+if (isset($_POST['dataKBM'])) {
+	if ($_POST['dataKBM'] == 'tambahKBM') {
+		$idKelas = $_POST['idKelas'];
+		$idGuru = $_POST['idGuru'];
+		$idMapel = $_POST['idMapel'];
+
+		$result = $funs->addDataKBM($idKelas, $idMapel, $idGuru);
+		if ($result) {
+			echo "success";
+		} else {
+			echo "failed";
+		}
 	}
 }

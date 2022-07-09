@@ -31,7 +31,7 @@ $fun = new Functions();
                 <a href="../user-admin/user.php" class="list-group-item list-group-item-action bg-transparent second-text active"><i class="fas fa-project-diagram me-2"></i>User Admin</a>
                 <a href="../user-admin/user-guru.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-project-diagram me-2"></i>User Guru</a>
                 <a href="../user-admin/user-siswa.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-project-diagram me-2"></i>User Siswa</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-chart-line me-2"></i>Mapel</a>
+                <a href="../user-admin/kbm.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-chart-line me-2"></i>Mapel</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-paperclip me-2"></i>Nilai</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i class="fas fa-power-off me-2"></i>Logout</a>
             </div>
@@ -71,7 +71,7 @@ $fun = new Functions();
                 <!-- PREVIEW CARD -->
                 <div class="d-flex mb-3">
                     <div class="p-2">
-                        <select class="form-select" aria-label="Default select example" id="pilih_kelas">
+                        <select class="form-select" aria-label="Default select example" id="pilih_kelas" disabled>
                             <option selected value="0">Semua Kelas</option>
                             <?php
                             $resultPilihan = $fun->getKelas();
@@ -88,7 +88,7 @@ $fun = new Functions();
                     <h3 class="fs-4 mb-3">User</h3>
                     <div class="col">
                         <!-- tabel admin -->
-                        <table class="table bg-white rounded shadow-sm  table-hover" id='tabel_admin'>
+                        <table class="table bg-white rounded shadow-lg  table-hover" id='tabel_admin'>
                             <thead>
                                 <tr>
                                     <th scope="col">ID</th>
@@ -316,7 +316,7 @@ $fun = new Functions();
                         success: function(data) {
                             if (data == 'success') {
                                 swal("Success", "Data Berhasil Diperbarui!", "success");
-                                location.reload();
+                                // location.reload();
                             } else {
                                 swal("Failed", "Data gagal diperbarui!");
                             }
@@ -337,7 +337,7 @@ $fun = new Functions();
             // HAPUS DATA
             $('#tabel_admin').on('click', '#btnHapusData', function() {
                 var row = $(this).closest("tr");
-                var idAdmin = row.find("#rowAdmin").text();
+                var idUser = row.find("#rowAdmin").text();
 
                 Swal.fire({
                     title: 'Are you sure?',
@@ -353,7 +353,7 @@ $fun = new Functions();
                             method: 'POST',
                             url: '../config/controller.php',
                             data: {
-                                idAdmin: idAdmin,
+                                idUser: idUser,
                                 DataDeleted: 'DataDeleted'
                             },
                             success: function(data) {
