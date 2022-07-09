@@ -166,7 +166,8 @@ $fun = new Functions();
                 },
                 success: function(data) {
                     if (data == 'success') {
-                        swal("Success", "Data Berhasil Ditambahkan!", "success");
+                        // swal("Success", "Data Berhasil Ditambahkan!", "success");
+                        alert('Data Berhasil Ditambahkan!');
                         $('#idUser').val('');
                         $('#pass').val('');
                         $('#email').val('');

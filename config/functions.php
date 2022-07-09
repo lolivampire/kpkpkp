@@ -6,9 +6,18 @@ class Functions
 {
 	function getUserData($id)
 	{
-
+		global $conn;
 		$sql = "SELECT us.id_user AS ID, du.nama, us.email, us.password AS Pass, us.hak_akses, us.date_created FROM user_sistem us, detail_user du WHERE us.id_user=du.id_user AND us.hak_akses ='$id' ORDER BY us.id_user ASC";
-		return $sql;
+		$result = $conn->query($sql);
+		return $result;
+	}
+
+	function getId($id)
+	{
+		global $conn;
+		$sql = "SELECT id_user FROM user_sistem WHERE id_user='$id' LIMIT 1";
+		$result = $conn->query($sql);
+		return $result;
 	}
 
 	function getAllUser()
@@ -63,6 +72,15 @@ class Functions
 		$sql = "SELECT id_kelas, nama FROM kelas";
 		$result = $conn->query($sql);
 		return $result;
+	}
+
+	function getKelasbyId($id_kelas)
+	{
+		global $conn;
+		$sql = "SELECT id_kelas FROM detail_user WHERE id_kelas = '$id_kelas'";
+		$result = $conn->query($sql);
+		$kelas = $result->fetch_assoc();
+		return $kelas;
 	}
 
 	function simpanUser($id, $pass, $email, $role)
@@ -165,6 +183,21 @@ class Functions
 		$result = $conn->query($sql);
 		return $result;
 	}
+	function getDataSiswa($id)
+	{
+		global $conn;
+		$sql = "SELECT us.id_user AS ID, us.password AS Pass, us.email, us.hak_akses,du.nama, du.tgl_lahir, du.jk, du.id_kelas, du.absen FROM user_sistem us, detail_user du WHERE us.id_user=du.id_user AND us.hak_akses = 3 AND us.id_user='$id'";
+		$result = $conn->query($sql);
+		return $result;
+	}
+
+	function getMapel()
+	{
+		global $conn;
+		$sql = "SELECT km.`id_kbm` as id_kbm, km.id_kelas as kelas, mp.`nama` as nama_mapel, du.`nama` as nama_pengampu FROM kbm km, detail_user du, kelas ks, mata_pelajaran mp WHERE du.`id_user` = km.`id_user` AND km.`id_kelas` = ks.`id_kelas` AND mp.`id_mapel` = km.`id_mapel`";
+		$result = $conn->query($sql);
+		return $result;
+	}
 
 	function hapusData($id)
 	{
@@ -177,6 +210,27 @@ class Functions
 	{
 		global $conn;
 		$sql = "DELETE FROM detail_user WHERE id_user='$id'";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	function getDataMapel()
+	{
+		global $conn;
+		$sql = "SELECT * FROM mata_pelajaran";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	function getNamaGuru()
+	{
+		global $conn;
+		$sql = "SELECT us.id_user AS id, du.nama AS nama_guru FROM detail_user du, user_sistem us WHERE du.`id_user` = us.`id_user` AND us.hak_akses = '2'";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	function addDataKBM($idKelas, $idGuru, $idMapel)
+	{
+		global $conn;
+		$sql = "INSERT INTO user_sistem VALUE ('','$idKelas','$idGuru','$idMapel')";
 		$result = $conn->query($sql);
 		return $result;
 	}

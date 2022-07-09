@@ -7,12 +7,11 @@ include_once "../config/library.php";
 $fun = new Functions();
 
 $id = $_GET["id"];
-$getData = $fun->getDataGuru($id);
+$getData = $fun->getDataSiswa($id);
 $row = $getData->fetch_assoc();
-var_dump($id);
+var_dump($row);
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,8 +19,7 @@ var_dump($id);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Data Guru</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
+    <title>Update Data Siswa</title>
 </head>
 
 <body>
@@ -34,7 +32,7 @@ var_dump($id);
                 <a href="../user-admin/user.php" class="list-group-item list-group-item-action bg-transparent second-text active"><em class="fas fa-project-diagram me-2"></em>User Admin</a>
                 <a href="../user-admin/user-guru.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-project-diagram me-2"></em>User Guru</a>
                 <a href="../user-admin/user-siswa.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-project-diagram me-2"></em>User Siswa</a>
-                <a href="../user-admin/kbm.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-chart-line me-2"></em>Mapel</a>
+                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-chart-line me-2"></em>Mapel</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-paperclip me-2"></em>Nilai</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><em class="fas fa-power-off me-2"></em>Logout</a>
             </div>
@@ -46,7 +44,7 @@ var_dump($id);
             <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
                 <div class="d-flex align-items-center">
                     <em class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></em>
-                    <h2 class="fs-2 m-0">Halaman Update Data</h2>
+                    <h2 class="fs-2 m-0">Halaman Update Data Siswa</h2>
                 </div>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,15 +71,19 @@ var_dump($id);
             <div class="container-fluid px-4">
 
                 <!-- PREVIEW CARD -->
-                <a href="user-guru.php" class="btn btn-warning">Kembali</a>
+                <a href="user-siswa.php" class="btn btn-warning">Kembali</a>
                 <div class="row my-3">
-                    <h3 class="fs-4 mb-3">User Guru</h3>
+                    <h3 class="fs-4 mb-3">User Siswa</h3>
                     <div id="notif"></div>
                     <div class="col">
                         <form id="form-update" action="" method="post">
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="basic-addon1">ID User</span>
                                 <input type="text" class="form-control" placeholder=" Masukkan ID User" aria-label="ID User" aria-describedby="basic-addon1" name="id_user" id="idUser" value="<?= $row["ID"] ?>" disabled>
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">Absen</span>
+                                <input type="text" class="form-control" placeholder=" Masukkan Absen" aria-label="Absen" aria-describedby="basic-addon1" name="absen" id="absen" value="<?= $row["absen"] ?>">
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="basic-addon1">Password</span>
@@ -125,10 +127,14 @@ var_dump($id);
                                 $result_user = $fun->getKelasbyId($row['id_kelas']);
                                 while ($row = $result->fetch_assoc()) { ?>
                                     <option value="<?php echo $row['id_kelas'] ?>" <?php if ($row['id_kelas'] == $result_user['id_kelas']) {
-                                                                                        echo "selected='selected'";
-                                                                                    } ?>><?php echo $row['nama'] ?></option>
+                                                                                        echo "selected";
+                                                                                    } ?>><?php echo $row['nama'] ?> </option>
                                 <?php } ?>
                             </select>
+                            <!-- <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">ID User</span>
+                                <input type="text" class="form-control" placeholder=" Masukkan ID User" aria-label="ID User" aria-describedby="basic-addon1" name="id_user" id="idUser" value="<?= $row[5] ?>" disabled>
+                            </div> -->
                         </form>
                         <button type="submit" class="btn btn-success" name="btn_update" id="btn_update">Update Data</button>
                         <button type="button" class="btn btn-info">Reset</button>
@@ -141,60 +147,59 @@ var_dump($id);
     </div>
     <!-- /#page-content-wrapper -->
     </div>
-
-
-    <script>
-        $('#btn_update').click(function() {
-
-            var id = $('#idUser').val();
-            var pass = $('#pass').val();
-            var email = $('#email').val();
-            var role = $('#role').val();
-            var nama = $('#namalengkap').val();
-            var tgl = $('#tgl_lahir').val();
-            var jk = $('#jeniskelamin').val();
-            var kelas = $('#kelas').val();
-
-            if (role != 0 && (id != '' || pass != '' || email != '' || nama != '' || tgl != '' || jk != 0)) {
-                $.ajax({
-                    url: '../config/controller.php',
-                    method: 'POST',
-                    data: {
-                        updateGuru: 'update',
-                        id: id,
-                        pass: pass,
-                        email: email,
-                        role: role,
-                        nama: nama,
-                        tgl: tgl,
-                        jk: jk,
-                        kelas: kelas
-
-                    },
-                    success: function(data) {
-                        if (data == 'success') {
-                            Swal.fire({
-                                title: 'Data berhasil diubah',
-                                confirmButtonText: 'Kembali'
-                            }).then((result) => {
-                                window.location.href = "user-guru.php";
-                            });
-                        } else {
-                            swal("Failed", "Data gagal diperbarui!");
-                        }
-                    },
-                    cache: false,
-                    error: function(xhr, status, error) {
-                        console.error(xhr);
-                    }
-                });
-            } else {
-                console.log(id + pass + email + role + nama + tgl + jk);
-                swal("Failed", "Masukkan Data");
-            }
-        });
-    </script>
-
 </body>
+<script>
+    $('#btn_update').click(function() {
+
+        var id = $('#idUser').val();
+        var pass = $('#pass').val();
+        var email = $('#email').val();
+        var role = $('#role').val();
+        var nama = $('#namalengkap').val();
+        var tgl = $('#tgl_lahir').val();
+        var jk = $('#jeniskelamin').val();
+        var kelas = $('#kelas').val();
+        var absen = $('#absen').val();
+
+        if (role != 0 && (id != '' || pass != '' || email != '' || nama != '' || tgl != '' || jk != 0)) {
+            $.ajax({
+                url: '../config/controller.php',
+                method: 'POST',
+                data: {
+                    updateUser: 'update',
+                    id: id,
+                    pass: pass,
+                    email: email,
+                    role: role,
+                    nama: nama,
+                    tgl: tgl,
+                    jk: jk,
+                    kelas: kelas,
+                    absen: absen
+
+                },
+                success: function(data) {
+                    if (data == 'success') {
+                        Swal.fire({
+                            title: 'Data berhasil diubah',
+                            confirmButtonText: 'Kembali'
+                        }).then((result) => {
+                            window.location.href = "user-siswa.php";
+                        });
+                    } else {
+                        swal("Failed", "Data gagal diperbarui!");
+                    }
+                },
+                cache: false,
+                error: function(xhr, status, error) {
+                    console.error(xhr);
+                }
+            });
+        } else {
+            console.log(id + pass + email + role + nama + tgl + jk);
+            swal("Failed", "Masukkan Data");
+        }
+    });
+</script>
 
 </html>
