@@ -85,7 +85,7 @@ $funs = new FunctionsDua();
                                                 <?php
                                                 $result = $fun->getKelas();
                                                 while ($row = $result->fetch_assoc()) { ?>
-                                                    <option value="<?php echo $row['id_kelas'] ?>"> <?php echo $row['nama'] ?> </option>
+                                                    <option value="<?php echo $row['id_kelas'] ?>"><?php echo $row['nama'] ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -95,7 +95,7 @@ $funs = new FunctionsDua();
                                                 <?php
                                                 $result = $fun->getNamaGuru();
                                                 while ($row = $result->fetch_assoc()) { ?>
-                                                    <option value="<?php echo $row['id_guru'] ?>"> <?php echo $row['nama_guru'] ?> </option>
+                                                    <option value="<?php echo $row['id'] ?>"><?php echo $row['nama_guru'] ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -105,7 +105,7 @@ $funs = new FunctionsDua();
                                                 <?php
                                                 $result = $fun->getDataMapel();
                                                 while ($row = $result->fetch_assoc()) { ?>
-                                                    <option value="<?php echo $row['id_mapel'] ?>"> <?php echo $row['nama'] ?> </option>
+                                                    <option value="<?php echo $row['id_mapel'] ?>"><?php echo $row['nama'] ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -136,9 +136,10 @@ $funs = new FunctionsDua();
         var idKelas = $('#kelas').val();
         var idGuru = $('#guru').val();
         var idMapel = $('#mapel').val();
-        // alert(idKelas);
 
-        if (idKelas != '' && idGuru != '' && idMapel != '') {
+        alert(idMapel+idGuru+idKelas);
+
+        if (idKelas != 0 && idGuru != 0 && idMapel != 0) {
             $.ajax({
                 method: 'POST',
                 url: '../config/controller.php',
