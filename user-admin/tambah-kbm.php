@@ -17,9 +17,9 @@ $funs = new FunctionsDua();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="yearpicker.css">
+    <link rel="stylesheet" href="../config/dist/yearpicker.css">
     <script src="/path/to/cdn/jquery.slim.min.js"></script>
-    <script src="yearpicker.js" async></script>
+    <script src="../config/dist/yearpicker.js" async></script>
     <title>Halaman KBM</title>
 </head>
 
@@ -135,11 +135,46 @@ $funs = new FunctionsDua();
 
     $('.yearpicker').yearpicker({
 
-        onShow: null,
-        onHide: null,
-        onChange: function(value) {}
+  // Initial Year
+  year: null,
 
-    });
+  // Start Year
+  startYear: null,
+
+  // End Year
+  endYear: null,
+
+  // Element tag
+  itemTag: 'li',
+
+  // Default CSS classes
+  selectedClass: 'selected',
+  disabledClass: 'disabled',
+  hideClass: 'hide',
+
+  // Custom template
+  template: `<div class="yearpicker-container">
+              <div class="yearpicker-header">
+                  <div class="yearpicker-prev" data-view="yearpicker-prev">&lsaquo;</div>
+                  <div class="yearpicker-current" data-view="yearpicker-current">SelectedYear</div>
+                  <div class="yearpicker-next" data-view="yearpicker-next">&rsaquo;</div>
+              </div>
+              <div class="yearpicker-body">
+                  <ul class="yearpicker-year" data-view="years">
+                  </ul>
+              </div>
+          </div>
+  `,
+  
+});
+
+    $('.yearpicker').yearpicker({
+
+  onShow: null,
+  onHide: null,
+  onChange: function(value){}
+  
+});
 
     var el = document.getElementById("wrapper");
     var toggleButton = document.getElementById("menu-toggle");
