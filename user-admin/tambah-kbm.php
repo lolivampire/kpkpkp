@@ -17,6 +17,9 @@ $funs = new FunctionsDua();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="yearpicker.css">
+    <script src="/path/to/cdn/jquery.slim.min.js"></script>
+    <script src="yearpicker.js" async></script>
     <title>Halaman KBM</title>
 </head>
 
@@ -85,7 +88,7 @@ $funs = new FunctionsDua();
                                                 <?php
                                                 $result = $fun->getKelas();
                                                 while ($row = $result->fetch_assoc()) { ?>
-                                                    <option value="<?php echo $row['id_kelas'] ?>"> <?php echo $row['nama'] ?> </option>
+                                                    <option value="<?php echo $row['id_kelas'] ?>"><?php echo $row['nama'] ?> </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -95,7 +98,7 @@ $funs = new FunctionsDua();
                                                 <?php
                                                 $result = $fun->getNamaGuru();
                                                 while ($row = $result->fetch_assoc()) { ?>
-                                                    <option value="<?php echo $row['id_guru'] ?>"> <?php echo $row['nama_guru'] ?> </option>
+                                                    <option value="<?php echo $row['id'] ?>"><?php echo $row['nama_guru'] ?> </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -105,9 +108,12 @@ $funs = new FunctionsDua();
                                                 <?php
                                                 $result = $fun->getDataMapel();
                                                 while ($row = $result->fetch_assoc()) { ?>
-                                                    <option value="<?php echo $row['id_mapel'] ?>"> <?php echo $row['nama'] ?> </option>
+                                                    <option value="<?php echo $row['id_mapel'] ?>"><?php echo $row['nama'] ?> </option>
                                                 <?php } ?>
                                             </select>
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" class="yearpicker" value="">
                                         </div>
                                         <div class="col-auto">
                                             <a id="btnTambahKBM" class="btn btn-primary btn-lg">Tambah Data</a>
@@ -125,6 +131,16 @@ $funs = new FunctionsDua();
     </div>
 </body>
 <script>
+    $('.yearpicker').yearpicker();
+
+    $('.yearpicker').yearpicker({
+
+        onShow: null,
+        onHide: null,
+        onChange: function(value) {}
+
+    });
+
     var el = document.getElementById("wrapper");
     var toggleButton = document.getElementById("menu-toggle");
 
@@ -138,7 +154,7 @@ $funs = new FunctionsDua();
         var idMapel = $('#mapel').val();
         // alert(idKelas);
 
-        if (idKelas != '' && idGuru != '' && idMapel != '') {
+        if (idKelas != 0 && idGuru != 0 && idMapel != 0) {
             $.ajax({
                 method: 'POST',
                 url: '../config/controller.php',

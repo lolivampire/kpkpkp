@@ -194,7 +194,7 @@ class Functions
 	function getMapel()
 	{
 		global $conn;
-		$sql = "SELECT km.`id_kbm` as id_kbm, km.id_kelas as kelas, mp.`nama` as nama_mapel, du.`nama` as nama_pengampu FROM kbm km, detail_user du, kelas ks, mata_pelajaran mp WHERE du.`id_user` = km.`id_user` AND km.`id_kelas` = ks.`id_kelas` AND mp.`id_mapel` = km.`id_mapel`";
+		$sql = "SELECT km.`id_kbm` AS id_kbm, km.id_kelas AS kelas, mp.`nama` AS nama_mapel, du.`nama` AS nama_pengampu, km.tahun_ajaran FROM kbm km, detail_user du, kelas ks, mata_pelajaran mp WHERE du.`id_user` = km.`id_user` AND km.`id_kelas` = ks.`id_kelas` AND mp.`id_mapel` = km.`id_mapel`";
 		$result = $conn->query($sql);
 		return $result;
 	}

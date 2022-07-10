@@ -170,3 +170,13 @@ if (isset($_POST['dataKBM'])) {
 		}
 	}
 }
+
+if (isset($_POST['KBMdeleted'])) {
+	$id = $_POST['idKBM'];
+	$del = $funs->hapusKBM($id);
+	if ($del) {
+		echo "success";
+	} else {
+		echo "failed";
+	}
+}

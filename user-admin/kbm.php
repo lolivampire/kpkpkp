@@ -29,7 +29,7 @@ $fun = new Functions();
                 <a href="../user-admin/user-guru.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-project-diagram me-2"></em>User Guru</a>
                 <a href="../user-admin/user-siswa.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-project-diagram me-2"></em>User Siswa</a>
                 <a href="../user-admin/kbm.php" class="list-group-item list-group-item-action bg-transparent second-text active"><em class="fas fa-chart-line me-2"></em>Mapel</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-paperclip me-2"></em>Nilai</a>
+                <a href="../user-admin/nilai.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-paperclip me-2"></em>Nilai</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><em class="fas fa-power-off me-2"></em>Logout</a>
             </div>
         </div>
@@ -85,6 +85,7 @@ $fun = new Functions();
                                     <th scope="col-auto">Kelas</th>
                                     <th scope="col-auto">Nama Mata Pelajaran</th>
                                     <th scope="col-auto">Nama Penagampu</th>
+                                    <th scope="col-auto">Tahun Ajaran</th>
                                     <th scope="col-auto">Action</th>
                                 </tr>
                             </thead>
@@ -94,19 +95,12 @@ $fun = new Functions();
                                 if ($result && $result->num_rows > 0) {
                                     while ($row = $result->fetch_assoc()) { ?>
                                         <tr>
-                                            <th scope="row" id="rowAdmin"><?= $row["id_kbm"]; ?></th>
-                                            <td> <?= $row["kelas"]; ?> </td>
-                                            <td> <?= $row["nama_mapel"]; ?> </td>
-                                            <td> <?= $row["nama_pengampu"]; ?> </td>
+                                            <th scope="row" id="rowKBM"><?= $row["id_kbm"]; ?></th>
+                                            <td> <?= $row["kelas"]; ?></td>
+                                            <td> <?= $row["nama_mapel"]; ?></td>
+                                            <td> <?= $row["nama_pengampu"]; ?></td>
+                                            <td> <?= $row["tahun_ajaran"]; ?></td>
                                             <td>
-                                                <!-- Button trigger modal -->
-                                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                                    Rincian
-                                                </button>
-                                                <!-- Button trigger modal edit data -->
-                                                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#" id="btnUpdateData">
-                                                    Edit
-                                                </button>
                                                 <a href="#" class="btn btn-danger" id="btnHapusData">Hapus</a>
                                             </td>
                                         </tr>
@@ -129,6 +123,49 @@ $fun = new Functions();
     toggleButton.onclick = function() {
         el.classList.toggle("toggled");
     };
+
+    // HAPUS DATA
+    $('#tabel_kbm').on('click', '#btnHapusData', function() {
+        var row = $(this).closest("tr");
+        var idKBM = row.find("#rowKBM").text();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    method: 'POST',
+                    url: '../config/controller.php',
+                    data: {
+                        idKBM: idKBM,
+                        KBMdeleted: 'KBMdeleted'
+                    },
+                    success: function(data) {
+                        if (data == 'success') {
+                            swal("Success", "Data Berhasil Dihapus", "success");
+                            location.reload();
+                        } else {
+                            swal("Failed", "Data gagal Dihapus");
+                        }
+                    },
+                    cache: false,
+                    error: function(xhr, status, error) {
+                        console.error(xhr);
+                    }
+                });
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                )
+            }
+        })
+    });
 </script>
 
 </html>
