@@ -161,8 +161,10 @@ if (isset($_POST['dataKBM'])) {
 		$idKelas = $_POST['idKelas'];
 		$idGuru = $_POST['idGuru'];
 		$idMapel = $_POST['idMapel'];
+		$idMapel = $_POST['idMapel'];
+		$tahun = $_POST['tahun'];
 
-		$result = $funs->addDataKBM($idKelas, $idMapel, $idGuru);
+		$result = $funs->addDataKBM($idKelas, $idMapel, $idGuru, $tahun);
 		if ($result) {
 			echo "success";
 		} else {
@@ -174,6 +176,32 @@ if (isset($_POST['dataKBM'])) {
 if (isset($_POST['KBMdeleted'])) {
 	$id = $_POST['idKBM'];
 	$del = $funs->hapusKBM($id);
+	if ($del) {
+		echo "success";
+	} else {
+		echo "failed";
+	}
+}
+
+if (isset($_POST['addDataMapel'])) {
+	if ($_POST['addDataMapel'] == 'addMapel') {
+		$idMapel = $_POST['idMapel'];
+		$namaMapel = $_POST['namaMapel'];
+		$deskripsi = $_POST['deskripsi'];
+		$kkm = $_POST['kkm'];
+
+		$result = $funs->tambahMapel($idMapel, $namaMapel, $deskripsi, $kkm);
+		if ($result) {
+			echo "success";
+		} else {
+			echo "failed";
+		}
+	}
+}
+
+if (isset($_POST['MapelDeleted'])) {
+	$id = $_POST['id'];
+	$del = $funs->hapusMapel($id);
 	if ($del) {
 		echo "success";
 	} else {

@@ -113,7 +113,7 @@ $funs = new FunctionsDua();
                                             </select>
                                         </div>
                                         <div class="col">
-                                            <input type="text" class="yearpicker" value="">
+                                            <input type="text" class="yearpicker form-select mb-3" value="" id="tahun_ajaran" placeholder="Tahun Ajaran">
                                         </div>
                                         <div class="col-auto">
                                             <a id="btnTambahKBM" class="btn btn-primary btn-lg">Tambah Data</a>
@@ -135,25 +135,25 @@ $funs = new FunctionsDua();
 
     $('.yearpicker').yearpicker({
 
-  // Initial Year
-  year: null,
+        // Initial Year
+        year: null,
 
-  // Start Year
-  startYear: null,
+        // Start Year
+        startYear: null,
 
-  // End Year
-  endYear: null,
+        // End Year
+        endYear: null,
 
-  // Element tag
-  itemTag: 'li',
+        // Element tag
+        itemTag: 'li',
 
-  // Default CSS classes
-  selectedClass: 'selected',
-  disabledClass: 'disabled',
-  hideClass: 'hide',
+        // Default CSS classes
+        selectedClass: 'selected',
+        disabledClass: 'disabled',
+        hideClass: 'hide',
 
-  // Custom template
-  template: `<div class="yearpicker-container">
+        // Custom template
+        template: `<div class="yearpicker-container">
               <div class="yearpicker-header">
                   <div class="yearpicker-prev" data-view="yearpicker-prev">&lsaquo;</div>
                   <div class="yearpicker-current" data-view="yearpicker-current">SelectedYear</div>
@@ -165,16 +165,15 @@ $funs = new FunctionsDua();
               </div>
           </div>
   `,
-  
-});
 
+    });
     $('.yearpicker').yearpicker({
 
-  onShow: null,
-  onHide: null,
-  onChange: function(value){}
-  
-});
+        onShow: null,
+        onHide: null,
+        onChange: function(value) {}
+
+    });
 
     var el = document.getElementById("wrapper");
     var toggleButton = document.getElementById("menu-toggle");
@@ -187,6 +186,7 @@ $funs = new FunctionsDua();
         var idKelas = $('#kelas').val();
         var idGuru = $('#guru').val();
         var idMapel = $('#mapel').val();
+        var tahun = $('#tahun_ajaran').val();
         // alert(idKelas);
 
         if (idKelas != 0 && idGuru != 0 && idMapel != 0) {
@@ -197,7 +197,8 @@ $funs = new FunctionsDua();
                     dataKBM: 'tambahKBM',
                     idKelas: idKelas,
                     idMapel: idMapel,
-                    idGuru: idGuru
+                    idGuru: idGuru,
+                    tahun: tahun
                 },
                 success: function(data) {
                     if (data == 'success') {

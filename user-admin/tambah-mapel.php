@@ -71,7 +71,7 @@ $fun = new Functions();
                         </div>
                     </div>
                     <div class="col mt-1">
-                        <!-- Content here -->
+                        <!-- Form tambah mata pelajaran -->
                         <div>
                             <div class="card shadow-lg">
                                 <div class="card-header">
@@ -101,10 +101,11 @@ $fun = new Functions();
                                             <input type="text" class="form-control" id="input4" placeholder="KKM">
                                             <label for="input4">KKM</label>
                                         </div>
-                                        <a href="#" class="btn btn-primary mt-3 float-end">Tambah Data</a>
+                                        <a id="btnTambahMapel" class="btn btn-primary mt-3 float-end">Tambah Data</a>
                                     </form>
                                 </div>
                             </div>
+                            <!-- tabel mata pelajaran -->
                             <div class="card text-center mt-3">
                                 <div class="card-header">
                                     Tabel Mata Pelajaran
@@ -132,7 +133,7 @@ $fun = new Functions();
                                                         <td> <?= $row["deskripsi"]; ?> </td>
                                                         <td> <?= $row["kkm"]; ?> </td>
                                                         <td>
-                                                            <a href="#" class="btn btn-danger" id="btnHapusData">Hapus</a>
+                                                            <a class="btn btn-danger" id="btnHapusData">Hapus</a>
                                                         </td>
                                                     </tr>
                                             <?php }
@@ -162,6 +163,94 @@ $fun = new Functions();
     toggleButton.onclick = function() {
         el.classList.toggle("toggled");
     };
+
+    // tambah mata pelajaran
+    $('#btnTambahMapel').click(function() {
+        var idMapel = $('#input1').val();
+        var namaMapel = $('#input2').val();
+        var deskripsi = $('#input3').val();
+        var kkm = $('#input4').val();
+        // alert(idMapel + namaMapel + deskripsi + kkm);
+
+        if (idMapel != '' && namaMapel != '' && deskripsi != '' && kkm != '') {
+            $.ajax({
+                method: 'POST',
+                url: '../config/controller.php',
+                data: {
+                    addDataMapel: 'addMapel',
+                    idMapel: idMapel,
+                    namaMapel: namaMapel,
+                    deskripsi: deskripsi,
+                    kkm: kkm
+                },
+                success: function(data) {
+                    if (data == 'success') {
+                        // Swal.fire({
+                        //     title: 'Data berhasil ditambahkan',
+                        //     confirmButtonText: 'Kembali'
+                        // }).then((result) => {
+                        //     window.location.href = "kbm.php";
+                        // });
+                        alert('success');
+                    } else {
+                        // swal("Failed", "Data gagal ditambahkan!");
+                        alert('failed');
+                    }
+                },
+                cache: false,
+                error: function(xhr, status, error) {
+                    console.error(xhr);
+                }
+            });
+        } else {
+            // swal("Failed", "Masukkan Data");
+            alert('MASUKKAN DATA');
+        }
+    });
+
+    // HAPUS DATA
+    $('#tabel_kbm').on('click', '#btnHapusData', function() {
+        var row = $(this).closest("tr");
+        var id = row.find("#rowMapel").text();
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    method: 'POST',
+                    url: '../config/controller.php',
+                    data: {
+                        id: id,
+                        MapelDeleted: 'MapelDeleted'
+                    },
+                    success: function(data) {
+                        if (data == 'success') {
+                            swal("Success", "Data Berhasil Dihapus", "success");
+                            location.reload();
+                        } else {
+                            swal("Failed", "Data gagal Dihapus");
+                        }
+                    },
+                    cache: false,
+                    error: function(xhr, status, error) {
+                        console.error(xhr);
+                    }
+                });
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                )
+            }
+        })
+    });
 </script>
 
 </html>
