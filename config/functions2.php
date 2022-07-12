@@ -31,4 +31,11 @@ class FunctionsDua
         $result = $conn->query($sql);
         return $result;
     }
+    function getTahunPelajaran()
+    {
+        global $conn;
+        $sql = "SELECT kbm.`tahun_ajaran` FROM kbm GROUP BY kbm.`tahun_ajaran`;";
+        $result = $conn->query($sql);
+        return $result;
+    }
 }

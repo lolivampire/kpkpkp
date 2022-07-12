@@ -3,9 +3,10 @@
 include_once "../config/koneksi.php";
 include_once "../config/library.php";
 require_once "../config/functions.php";
+require_once "../config/functions2.php";
 
 $fun = new Functions();
-
+$funs = new FunctionsDua();
 
 ?>
 <!DOCTYPE html>
@@ -40,7 +41,7 @@ $fun = new Functions();
             <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
                 <div class="d-flex align-items-center">
                     <em class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></em>
-                    <h2 class="fs-2 m-0">JUDUL HALAMAN</h2>
+                    <h2 class="fs-2 m-0">HALAMAN PENGOLAHAN NILAI</h2>
                 </div>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,17 +66,33 @@ $fun = new Functions();
             <!-- PREVIEW CARD -->
             <div class="container-fluid px-4">
                 <div class="row my-3">
-                    <h3 class="fs-4 mb-3">SUB JUDUL HALAMAN</h3>
+                    <h3 class="fs-4 mb-3">OLAH DATA NILAI SISWA</h3>
                     <div class="d-flex mb-3">
                         <div class="">
                             <a href="#" class="btn btn-success">Kembali</a>
                         </div>
                     </div>
-                    <div class="col mt-1">
-                        <!-- tabel -->
-                        <table>
-                        </table>
-                        <!-- END tabel -->
+                    <div class="container">
+                        <div class="card">
+                            <h5 class="card-header">Tahun Ajaran</h5>
+                            <div class="card-body">
+                                <?php
+                                $result = $funs->getTahunPelajaran();
+                                if ($result && $result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) { ?>
+                                        <div class="card my-3" href="#">
+                                            <div class="card-body">
+                                                <tr>
+                                                    <th scope="row" id="rowTahun"><?= $row["tahun_ajaran"]; ?></th>
+                                                    <br>
+                                                    <button href="#" class="btn btn-primary"> -></button>
+                                                </tr>
+                                            </div>
+                                        </div>
+                                <?php }
+                                } ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
