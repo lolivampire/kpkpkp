@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 include_once "../config/koneksi.php";
 include_once "../config/library.php";
@@ -6,6 +7,14 @@ require_once "../config/functions.php";
 
 $fun = new Functions();
 
+if (isset($_SESSION["login"]) && isset($_SESSION["login-guru"])) {
+    $idU = $_SESSION["idu"];
+} else {
+    header('Location: ../login.php');
+    exit;
+}
+
+echo "$idU";
 
 ?>
 <!DOCTYPE html>
@@ -24,8 +33,8 @@ $fun = new Functions();
         <div class="bg-white" id="sidebar-wrapper">
             <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><em class="fas fa-user-secret me-2"></em>SIPN</div>
             <div class="list-group list-group-flush my-3">
-                <a href="../user-guru/dashboard.php" class="list-group-item list-group-item-action bg-transparent second-text active"><em class="fas fa-tachometer-alt me-2"></em>Dashboard</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-chart-line me-2"></em>Mapel</a>
+                <a href="dashboard.php" class="list-group-item list-group-item-action bg-transparent second-text active"><em class="fas fa-tachometer-alt me-2"></em>Dashboard</a>
+                <a href="nilai.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-chart-line me-2"></em>Nilai</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-paperclip me-2"></em>Nilai</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><em class="fas fa-power-off me-2"></em>Logout</a>
             </div>
@@ -48,7 +57,12 @@ $fun = new Functions();
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <em class="fas fa-user me-2"></em>John Doe
+                                <em class="fas fa-user me-2"></em>
+                                <?php
+                                $result = $fun->getDataUserAll($idU);
+                                $displayName = $result->fetch_assoc();
+                                echo "$displayName[nama]";
+                                ?>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="#">Profile</a></li>

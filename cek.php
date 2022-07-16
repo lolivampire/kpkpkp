@@ -9,13 +9,16 @@ include_once "config/koneksi.php";
 
 // cek login
 if (!isset($_SESSION["login"])) {
-    header("Location : login.php");
+    header("location: login.php");
 }
 // cek hak akses user yang login
 if ($_SESSION['role'] == 1) {
+    //set session admin
     $_SESSION["login-admin"] = true;
-    header("Location : /user-admin/dashboard-admin.php");
-} else {
+    header("location: user-admin/dashboard-admin.php");
+} else if ($_SESSION['role'] == 2) {
     $_SESSION["login-guru"] = true;
-    header("Location : /user-guru/dashboard.php");
+    header("location: user-guru/dashboard.php");
+} else {
+    echo "login sebagai siswa";
 }

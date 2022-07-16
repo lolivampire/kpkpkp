@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include_once "../config/koneksi.php";
 include_once "../config/library.php";
 require_once "../config/functions2.php";
@@ -7,6 +7,13 @@ require_once "../config/functions.php";
 
 $funs = new FunctionsDua();
 $fun = new Functions();
+
+if (isset($_SESSION["login"]) && isset($_SESSION["login-guru"])) {
+    $idU = $_SESSION["idu"];
+} else {
+    header('Location: ../login.php');
+    exit;
+}
 
 if (isset($_GET["id_kbm"])) {
     # code...
@@ -45,7 +52,7 @@ if (isset($_POST["btnAdd"])) {
         </script>
         ";
         $data = array('tahun_ajaran' => $tahun1, 'id_kelas' => $kelas1, 'id_kbm' => $kbm1,);
-        header('Location: ..\user-admin\nilai-siswa.php?' . http_build_query($data));
+        header('Location: ..\user-guru\nilai-siswa.php?' . http_build_query($data));
     } else {
         echo "
         <script>
@@ -72,13 +79,9 @@ if (isset($_POST["btnAdd"])) {
         <div class="bg-white" id="sidebar-wrapper">
             <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><em class="fas fa-user-secret me-2"></em>SIPN</div>
             <div class="list-group list-group-flush my-3">
-                <a href="../user-admin/dashboard-admin.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-tachometer-alt me-2"></em>Dashboard</a>
-                <a href="../user-admin/user.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-project-diagram me-2"></em>User Admin</a>
-                <a href="../user-admin/user-guru.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-project-diagram me-2"></em>User Guru</a>
-                <a href="../user-admin/user-siswa.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-project-diagram me-2"></em>User Siswa</a>
-                <a href="../user-admin/kbm.php" class="list-group-item list-group-item-action bg-transparent second-text active"><em class="fas fa-chart-line me-2"></em>Mapel</a>
-                <a href="../user-admin/nilai.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-paperclip me-2"></em>Nilai</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><em class="fas fa-power-off me-2"></em>Logout</a>
+                <a href="dashboard.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-tachometer-alt me-2"></em>Dashboard</a>
+                <a href="nilai.php" class="list-group-item list-group-item-action bg-transparent second-text active"><em class="fas fa-project-diagram me-2"></em>Penilaian</a>
+                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-project-diagram me-2"></em>Remidial</a>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -99,12 +102,17 @@ if (isset($_POST["btnAdd"])) {
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <em class="fas fa-user me-2"></em>John Doe
+                                <em class="fas fa-user me-2"></em>
+                                <?php
+                                $result = $fun->getDataUserAll($idU);
+                                $displayName = $result->fetch_assoc();
+                                echo "$displayName[nama]";
+                                ?>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="#">Profile</a></li>
                                 <li><a class="dropdown-item" href="#">Settings</a></li>
-                                <li><a class="dropdown-item" href="#">Logout</a></li>
+                                <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -116,7 +124,7 @@ if (isset($_POST["btnAdd"])) {
                     <h3 class="fs-4 mb-3">SUB JUDUL HALAMAN</h3>
                     <div class="d-flex mb-3">
                         <div class="">
-                            <a href="..\user-admin\nilai-siswa.php?tahun_ajaran=<?= $tahun1; ?>&id_kelas=<?= $kelas1; ?>&id_kbm=<?= $kbm1; ?>" class="btn btn-success">Kembali</a>
+                            <a href="..\user-guru\nilai-siswa.php?tahun_ajaran=<?= $tahun1; ?>&id_kelas=<?= $kelas1; ?>&id_kbm=<?= $kbm1; ?>" class="btn btn-success">Kembali</a>
                         </div>
                     </div>
                     <div class="col mt-1">
@@ -125,11 +133,6 @@ if (isset($_POST["btnAdd"])) {
                             <div class="card-body">
                                 <!-- form -->
                                 <form method="post">
-                                    <input type="text" class="form-control" id="d1" value="<?= $kbm1 ?>" hidden>
-                                    <input type="text" class="form-control" id="d2" value="<?= $id1 ?>" hidden>
-                                    <input type="text" class="form-control" id="d3" value="<?= $kelas1 ?>" hidden>
-                                    <input type="text" class="form-control" id="d4" value="<?= $tahun1 ?>" hidden>
-                                    <input type="text" class="form-control" id="d5" value="<?= $mapel1 ?>" hidden>
                                     <div class="form-floating mb-3">
                                         <?php
                                         $namaSiswa = $fun->getSiswaKelas($kelas1);

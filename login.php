@@ -25,7 +25,7 @@ if (isset($_POST["login"])) {
       $_SESSION["login"] = true;
 
       //redirect lokasi pengecekan user
-      header("Location: cek.php");
+      header('Location: cek.php');
       exit;
     } else {
       echo "<script>alert('Username atau Password Salah!');</script>";
@@ -48,7 +48,7 @@ if (isset($_POST["login"])) {
 
 </head>
 
-<body class="bg-login container">\
+<body class="bg-login container">
 
   <div class="dash">
     <div class="dashtop">

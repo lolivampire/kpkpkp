@@ -1,11 +1,17 @@
 <?php
-
+session_start();
 include_once "../config/koneksi.php";
 include_once "../config/library.php";
 require_once "../config/functions.php";
 
 $fun = new Functions();
 
+if (isset($_SESSION["login"]) && isset($_SESSION["login-admin"])) {
+  $idU = $_SESSION["idu"];
+} else {
+  header('Location: ../login.php');
+  exit;
+}
 
 ?>
 <!DOCTYPE html>
@@ -51,7 +57,12 @@ $fun = new Functions();
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <em class="fas fa-user me-2"></em>John Doe
+                <em class="fas fa-user me-2"></em>
+                <?php
+                $result = $fun->getDataUserAll($idU);
+                $displayName = $result->fetch_assoc();
+                echo "$displayName[nama]";
+                ?>
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="#">Profile</a></li>
@@ -125,9 +136,9 @@ $fun = new Functions();
         <!-- PREVIEW CARD -->
         <div class="card mb-3 shadow-lg mt-3">
           <div class="card-body">
-            <center>
-              <h5 class="card-title mt-3">SISTEM PENGOLAHAN NILAI SD MUHAMMADIYAH 1 TEMANGGUNG</h5>
-            </center>
+
+            <h5 class="card-title text-center mt-3">SISTEM PENGOLAHAN NILAI SD MUHAMMADIYAH 1 TEMANGGUNG</h5>
+
             <br>
             <table style="undefined;table-layout: fixed; width: 623px" class="m-2">
               <colgroup>
@@ -184,9 +195,9 @@ $fun = new Functions();
                 </tr>
               </tbody>
             </table>
-            <center>
-              <p class="card-text mt-5"><small class="text-muted">2022 allright reserved</small></p>
-            </center>
+
+            <p class="card-text text-center mt-5"><small class="text-muted">2022 allright reserved</small></p>
+
           </div>
         </div>
 
