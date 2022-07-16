@@ -56,7 +56,7 @@ $fun = new Functions();
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="#">Profile</a></li>
                 <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li><a class="dropdown-item" href="#">Logout</a></li>
+                <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
               </ul>
             </li>
           </ul>

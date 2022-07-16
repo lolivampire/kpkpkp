@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 include_once "config/koneksi.php";
 include_once "config/library.php";
@@ -16,8 +17,18 @@ if (isset($_POST["login"])) {
     $row = mysqli_fetch_assoc($cek);
 
     if ($password == $row["password"]) {
-      header("Location: index.php");
+      //set session user
+      $idUser = $row["id_user"];
+      $HakAkses = $row["hak_akses"];
+      $_SESSION["idu"] = $idUser;
+      $_SESSION["role"] = $HakAkses;
+      $_SESSION["login"] = true;
+
+      //redirect lokasi pengecekan user
+      header("Location: cek.php");
       exit;
+    } else {
+      echo "<script>alert('Username atau Password Salah!');</script>";
     }
   }
 }

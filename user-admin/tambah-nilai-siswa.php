@@ -29,7 +29,7 @@ if (isset($_GET["id_mapel"])) {
 //mengecek apakah tombol sumbit sudah diclick atau belum
 if (isset($_POST["btnAdd"])) {
     //ambil data
-    $user = $id1;
+    $user = $_POST['input1'];
     $kbm = $kbm1;
     $jenis = $_POST["input3"];
     $poin = $_POST["input4"];
@@ -41,11 +41,12 @@ if (isset($_POST["btnAdd"])) {
     if ($conn->query($queryinsertnilai) === TRUE) {
         echo "
         <script>
-            alert('New record created successfully');
-            document.location.href = '../user-admin/nilai-siswa-detail.php?tahun_ajaran=$tahun1&id_kelas=$kelas1&id_kbm=$kbm1&id_user=$id1&id_mapel=$mapel1';
+            alert('New record created successfully');           
         </script>
         ";
-        // header("Location: ../user-admin/nilai-siswa-detail.php?tahun_ajaran=$tahun1&id_kelas=$kelas1&id_kbm=$kbm1&id_user=$id1&id_mapel=$mapel1");
+        $data = array('tahun_ajaran' => $tahun1, 'id_kelas' => $kelas1, 'id_kbm' => $kbm1,);
+        // document.location.href = '..\user-admin\nilai-siswa.php?tahun_ajaran=$tahun1&id_kelas=$kelas1&id_kbm=$kbm1';
+        header('Location: ..\user-admin\nilai-siswa.php?' . http_build_query($data));
     } else {
         echo "
         <script>
@@ -116,7 +117,7 @@ if (isset($_POST["btnAdd"])) {
                     <h3 class="fs-4 mb-3">SUB JUDUL HALAMAN</h3>
                     <div class="d-flex mb-3">
                         <div class="">
-                            <a href="..\user-admin\nilai-siswa-detail.php?tahun_ajaran=<?= $tahun1; ?>&id_kelas=<?= $kelas1; ?>&id_kbm=<?= $kbm1; ?>&id_user=<?= $id1; ?>&id_mapel=<?= $mapel1; ?>" class="btn btn-success">Kembali</a>
+                            <a href="..\user-admin\nilai-siswa.php?tahun_ajaran=<?= $tahun1; ?>&id_kelas=<?= $kelas1; ?>&id_kbm=<?= $kbm1; ?>" class="btn btn-success">Kembali</a>
                         </div>
                     </div>
                     <div class="col mt-1">
@@ -132,18 +133,25 @@ if (isset($_POST["btnAdd"])) {
                                     <input type="text" class="form-control" id="d5" value="<?= $mapel1 ?>" hidden>
                                     <div class="form-floating mb-3">
                                         <?php
-                                        $namaSiswa = $fun->getDataSiswa($id1);
+                                        $namaSiswa = $fun->getSiswaKelas($kelas1);
                                         $dataNama = $namaSiswa->fetch_assoc();
                                         ?>
-                                        <input type="text" class="form-control" name="input1" id="input1" value="<?= $dataNama["nama"] ?>" disabled>
-                                        <label for="input1">NAMA</label>
+                                        <select class="form-select form-select-lg" aria-label=".form-select-lg example" name="input1" id="input1">
+                                            <option selected value="0">Nama</option>
+                                            <?php
+                                            $namaSiswa = $fun->getSiswaKelas($kelas1);
+                                            while ($dataNama = $namaSiswa->fetch_assoc()) { ?>
+                                                <option value="<?php echo $dataNama['ID'] ?>"> <?php echo $dataNama["nama"] ?> </option>
+                                                }
+                                            <?php } ?>
+                                        </select>
                                     </div>
                                     <div class="form-floating mb-3">
                                         <?php
-                                        $namaMapel = $funs->getMapel($mapel1);
+                                        $namaMapel = $funs->getMapelfromKBM($kbm1);
                                         $dataMapel = $namaMapel->fetch_assoc();
                                         ?>
-                                        <input type="text" class="form-control" name="input2" id="input2" value="<?= $dataMapel["namaMapel"] ?>" disabled>
+                                        <input type="text" class="form-control" name="input2" id="input2" value="<?= $dataMapel["nama_mapel"] ?>" disabled>
                                         <label for="input2">MATA PELAJARAN</label>
                                     </div>
                                     <div class="form mb-3">
@@ -157,7 +165,7 @@ if (isset($_POST["btnAdd"])) {
                                         </select>
                                     </div>
                                     <div class="form-floating mb-3">
-                                        <input type="number" class="form-control" name="input4" id="input4">
+                                        <input type="number" class="form-control" name="input4" id="input4" maxlength="3">
                                         <label for="input3">POIN</label>
                                     </div>
                                     <button type="submit" class="btn btn-success" name="btnAdd" id="btnAdd">SIMPAN</button>
@@ -180,52 +188,6 @@ if (isset($_POST["btnAdd"])) {
     toggleButton.onclick = function() {
         el.classList.toggle("toggled");
     };
-
-    // tambah mata pelajaran
-    // $('#submit').click(function() {
-    //     var user = $('#d2').val();
-    //     var kbm = $('#d1').val();
-    //     var jenis = $('#input3').val();
-    //     var poin = $('#input4').val();
-
-    // alert(user + ", " + kbm + ", " + jenis + ", " + poin);
-
-    // if (jenis != 0 && poin != '') {
-    //     $.ajax({
-    //         method: 'POST',
-    //         url: '../config/controller.php',
-    //         data: {
-    //             addDataNilai: 'addNilai',
-    //             user: user,
-    //             kbm: kbm,
-    //             jenis: jenis,
-    //             poin: poin
-    //         },
-    //         success: function(data) {
-    //             if (data == 'success') {
-    //                 // Swal.fire({
-    //                 //     title: 'Data berhasil ditambahkan',
-    //                 //     confirmButtonText: 'Kembali'
-    //                 // }).then((result) => {
-    //                 //     window.location.href = "kbm.php";
-    //                 // });
-    //                 alert('success');
-    //                 // window.location.href = "..\user-admin\nilai-siswa-detail.php?tahun_ajaran=<?= $tahun1; ?>&id_kelas=<?= $kelas1; ?>&id_kbm=<?= $kbm1; ?>&id_user=<?= $id1; ?>&id_mapel=<?= $mapel1; ?>";
-    //             } else {
-    //                 // swal("Failed", "Data gagal ditambahkan!");
-    //                 alert('failed');
-    //             }
-    //         },
-    //         cache: false,
-    //         error: function(xhr, status, error) {
-    //             console.error(xhr);
-    //         }
-    //     });
-    // } else {
-    //     // swal("Failed", "Masukkan Data");
-    //     alert('MASUKKAN DATA');
-    // }
-    // });
 </script>
 
 </html>

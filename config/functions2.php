@@ -88,6 +88,13 @@ class FunctionsDua
         $result = $conn->query($sql);
         return $result;
     }
+    function getMapelfromKBM($kbm)
+    {
+        global $conn;
+        $sql = "SELECT kbm.`id_mapel` AS ID, mata_pelajaran.`nama` AS nama_mapel FROM kbm,mata_pelajaran WHERE kbm.`id_mapel`=mata_pelajaran.`id_mapel` AND id_kbm='$kbm'";
+        $result = $conn->query($sql);
+        return $result;
+    }
     function insertNilai($user, $kbm, $jenis, $poin)
     {
         global $conn;

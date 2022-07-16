@@ -80,6 +80,9 @@ echo ($kelas);
                         <div class="">
                             <a href="..\user-admin\nilai-mapel.php?tahun_ajaran=<?= $tahun; ?>&id_kelas=<?= $kelas ?>" class="btn btn-success">Kembali</a>
                         </div>
+                        <div class="">
+                            <a class="btn btn-warning mx-2" href="..\user-admin\tambah-nilai-siswa.php?tahun_ajaran=<?= $tahun; ?>&id_kelas=<?= $kelas ?>&id_kbm=<?= $kbm ?>">Tambah Nilai</a>
+                        </div>
                     </div>
                     <div class="col mt-1">
                         <div class="card shadow-lg">
