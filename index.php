@@ -72,7 +72,7 @@
                                 <h3 class="fs-2">720</h3>
                                 <p class="fs-5">Products</p>
                             </div>
-                            <i class="fas fa-gift fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+                            <em class="fas fa-gift fs-1 primary-text border rounded-full secondary-bg p-3"></em>
                         </div>
                     </div>
 
@@ -82,8 +82,7 @@
                                 <h3 class="fs-2">4920</h3>
                                 <p class="fs-5">Sales</p>
                             </div>
-                            <i
-                                class="fas fa-hand-holding-usd fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+                            <em class="fas fa-hand-holding-usd fs-1 primary-text border rounded-full secondary-bg p-3"></em>
                         </div>
                     </div>
 
@@ -93,7 +92,7 @@
                                 <h3 class="fs-2">3899</h3>
                                 <p class="fs-5">Delivery</p>
                             </div>
-                            <i class="fas fa-truck fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+                            <em class="fas fa-truck fs-1 primary-text border rounded-full secondary-bg p-3"></em>
                         </div>
                     </div>
 
@@ -103,7 +102,7 @@
                                 <h3 class="fs-2">%25</h3>
                                 <p class="fs-5">Increase</p>
                             </div>
-                            <i class="fas fa-chart-line fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+                            <em class="fas fa-chart-line fs-1 primary-text border rounded-full secondary-bg p-3"></em>
                         </div>
                     </div>
                 </div>

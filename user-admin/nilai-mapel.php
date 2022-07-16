@@ -5,8 +5,11 @@ include_once "../config/library.php";
 require_once "../config/functions.php";
 require_once "../config/functions2.php";
 
-$fun = new Functions();
 $funs = new FunctionsDua();
+$tahun = $_GET["tahun_ajaran"];
+$kelas = $_GET["id_kelas"];
+echo ($kelas);
+echo ($tahun);
 
 ?>
 <!DOCTYPE html>
@@ -29,8 +32,8 @@ $funs = new FunctionsDua();
                 <a href="../user-admin/user.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-project-diagram me-2"></em>User Admin</a>
                 <a href="../user-admin/user-guru.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-project-diagram me-2"></em>User Guru</a>
                 <a href="../user-admin/user-siswa.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-project-diagram me-2"></em>User Siswa</a>
-                <a href="../user-admin/kbm.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-chart-line me-2"></em>Mapel</a>
-                <a href="../user-admin/nilai.php" class="list-group-item list-group-item-action bg-transparent second-text active"><em class="fas fa-paperclip me-2"></em>Nilai</a>
+                <a href="../user-admin/kbm.php" class="list-group-item list-group-item-action bg-transparent second-text active"><em class="fas fa-chart-line me-2"></em>Mapel</a>
+                <a href="../user-admin/nilai.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-paperclip me-2"></em>Nilai</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><em class="fas fa-power-off me-2"></em>Logout</a>
             </div>
         </div>
@@ -66,33 +69,50 @@ $funs = new FunctionsDua();
             <!-- PREVIEW CARD -->
             <div class="container-fluid px-4">
                 <div class="row my-3">
-                    <h3 class="fs-4 mb-3">OLAH DATA NILAI SISWA</h3>
+                    <h3 class="fs-4 mb-3">PILIHAN MATA PELAJARAN</h3>
                     <div class="d-flex mb-3">
                         <div class="">
-                            <a href="#" class="btn btn-success">Kembali</a>
+                            <a href="..\user-admin\nilai-kelas.php?tahun_ajaran=<?= $tahun; ?>&id_kelas=<?= $kelas ?>" class="btn btn-success">Kembali</a>
                         </div>
                     </div>
-                    <div class="container">
-                        <div class="card">
-                            <h5 class="card-header">Tahun Ajaran</h5>
+                    <div class="col mt-1">
+                        <!-- tabel -->
+                        <div class="card shadow-lg">
+                            <h5 class="card-header">MATA PELAJARAN</h5>
                             <div class="card-body">
-                                <?php
-                                $result = $funs->getTahunPelajaran();
-                                if ($result && $result->num_rows > 0) {
-                                    while ($row = $result->fetch_assoc()) { ?>
-                                        <div class="card my-3" href="#">
-                                            <div class="card-body">
+                                <table class="table bg-white rounded shadow-lg  table-hover" id='tabel_nilai'>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col-auto" hidden>ID</th>
+                                            <th scope="col-auto">Kelas</th>
+                                            <th scope="col-auto">Mata Pelajaran</th>
+                                            <th scope="col-auto">Nama Pengampu</th>
+                                            <th scope="col-auto">Tahun Ajaran</th>
+                                            <th scope="col-atuo">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $result = $funs->getMapelFromKelas($tahun, $kelas);
+                                        if ($result && $result->num_rows > 0) {
+                                            while ($row = $result->fetch_assoc()) { ?>
                                                 <tr>
-                                                    <th scope="row" id="rowTahun"><?= $row["tahun_ajaran"]; ?></th>
-                                                    <br>
-                                                    <a href="..\user-admin\nilai-kelas.php?tahun_ajaran=<?= $row["tahun_ajaran"]; ?>" class="btn btn-primary"> -> </a>
+                                                    <th scope="row" id="rowMapel" hidden><?= $row["id_kbm"]; ?></th>
+                                                    <td> <?= $row["kelas"]; ?></td>
+                                                    <td> <?= $row["nama_mapel"]; ?></td>
+                                                    <td> <?= $row["nama_pengampu"]; ?></td>
+                                                    <td> <?= $row["tahun_ajaran"]; ?></td>
+                                                    <td>
+                                                        <a href="..\user-admin\nilai-siswa.php?tahun_ajaran=<?= $tahun; ?>&id_kelas=<?= $kelas ?>&id_kbm=<?= $row["id_kbm"]; ?>" class="btn btn-danger" id="btnHapusData"> -></a>
+                                                    </td>
                                                 </tr>
-                                            </div>
-                                        </div>
-                                <?php }
-                                } ?>
+                                        <?php }
+                                        } ?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
+                        <!-- END tabel -->
                     </div>
                 </div>
             </div>

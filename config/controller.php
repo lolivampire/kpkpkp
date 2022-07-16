@@ -208,3 +208,29 @@ if (isset($_POST['MapelDeleted'])) {
 		echo "failed";
 	}
 }
+
+if (isset($_POST['NilaiDeleted'])) {
+	$id = $_POST['idNilai'];
+	$del = $funs->deleteNilai($id);
+	if ($del) {
+		echo "success";
+	} else {
+		echo "failed";
+	}
+}
+
+if (isset($_POST['addDataNilai'])) {
+	if ($_POST['addDataNilai'] == 'addNilai') {
+		$user = $_POST['user'];
+		$kbm = $_POST['kbm'];
+		$jenis = $_POST['jenis'];
+		$poin = $_POST['poin'];
+
+		$result = $funs->insertNilai($user, $kbm, $jenis, $poin);
+		if ($result) {
+			echo "success";
+		} else {
+			echo "failed";
+		}
+	}
+}
