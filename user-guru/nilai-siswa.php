@@ -123,7 +123,7 @@ if (isset($_SESSION["login"]) && isset($_SESSION["login-guru"])) {
                                                     <td> <?= $row["kkm"]; ?></td>
                                                     <td> <?= $row["rata_rata_nilai"]; ?></td>
                                                     <td>
-                                                        <a href="..\user-guru\nilai-siswa-detail.php?tahun_ajaran=<?= $tahun; ?>&id_kelas=<?= $kelas ?>&id_kbm=<?= $kbm ?>&id_user=<?= $row["userID"]; ?>&id_mapel=<?= $row["id_mapel"] ?>" class="btn btn-danger" id="btnHapusData">➜</a>
+                                                        <a href="..\user-guru\nilai-siswa-detail.php?tahun_ajaran=<?= $tahun; ?>&id_kelas=<?= $kelas ?>&id_kbm=<?= $kbm ?>&id_user=<?= $row["userID"]; ?>&id_mapel=<?= $row["id_mapel"] ?>" class="btn btn-primary" id="btnHapusData">➜</a>
                                                     </td>
                                                 </tr>
                                         <?php }

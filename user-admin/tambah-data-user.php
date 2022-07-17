@@ -1,10 +1,18 @@
 <?php
-
+session_start();
 require_once "../config/koneksi.php";
 require_once "../config/functions.php";
 include_once "../config/library.php";
 
 $fun = new Functions();
+
+if (isset($_SESSION["login"]) && isset($_SESSION["login-admin"])) {
+    $idU = $_SESSION["idu"];
+} else {
+    header('Location: ../login.php');
+    exit;
+}
+
 ?>
 
 
@@ -30,12 +38,12 @@ $fun = new Functions();
         <div class="bg-white" id="sidebar-wrapper">
             <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><i class="fas fa-user-secret me-2"></i>SIPN</div>
             <div class="list-group list-group-flush my-3">
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
-                <a href="../user-admin/user.php" class="list-group-item list-group-item-action bg-transparent second-text active"><i class="fas fa-project-diagram me-2"></i>User Admin</a>
-                <a href="../user-admin/user-guru.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-project-diagram me-2"></i>User Guru</a>
+                <a href="../user-admin/dashboard-admin.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+                <a href="../user-admin/user.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-project-diagram me-2"></i>User Admin</a>
+                <a href="../user-admin/user-guru.php" class="list-group-item list-group-item-action bg-transparent second-text active"><i class="fas fa-project-diagram me-2"></i>User Guru</a>
                 <a href="../user-admin/user-siswa.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-project-diagram me-2"></i>User Siswa</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-chart-line me-2"></i>Mapel</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-paperclip me-2"></i>Nilai</a>
+                <a href="../user-admin/kbm.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-chart-line me-2"></i>Mapel</a>
+                <a href="../user-admin/nilai.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-paperclip me-2"></i>Nilai</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i class="fas fa-power-off me-2"></i>Logout</a>
             </div>
         </div>
@@ -57,12 +65,17 @@ $fun = new Functions();
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user me-2"></i>John Doe
+                                <em class="fas fa-user me-2"></em>
+                                <?php
+                                $result = $fun->getDataUserAll($idU);
+                                $displayName = $result->fetch_assoc();
+                                echo "$displayName[nama]";
+                                ?>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="#">Profile</a></li>
                                 <li><a class="dropdown-item" href="#">Settings</a></li>
-                                <li><a class="dropdown-item" href="#">Logout</a></li>
+                                <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -78,58 +91,64 @@ $fun = new Functions();
                     <h3 class="fs-4 mb-3">User</h3>
                     <div id="notif"></div>
                     <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                Form Tambah User
+                            </div>
+                            <div class="card-body">
+                                <form>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">ID User</span>
+                                        <input type="text" class="form-control" placeholder=" Masukkan ID User" aria-label="ID User" aria-describedby="basic-addon1" id="idUser">
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">Password</span>
+                                        <input type="text" class="form-control" placeholder=" Masukkan Password" aria-label="Password" aria-describedby="basic-addon1" id="pass">
+                                    </div>
 
-                        <form>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon1">ID User</span>
-                                <input type="text" class="form-control" placeholder=" Masukkan ID User" aria-label="ID User" aria-describedby="basic-addon1" id="idUser">
-                            </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon1">Password</span>
-                                <input type="text" class="form-control" placeholder=" Masukkan Password" aria-label="Password" aria-describedby="basic-addon1" id="pass">
-                            </div>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Masukkan Email" aria-label="Email" aria-describedby="basic-addon2" id="email">
+                                        <span class="input-group-text" id="basic-addon2">@gmail.com</span>
+                                    </div>
 
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="Masukkan Email" aria-label="Email" aria-describedby="basic-addon2" id="email">
-                                <span class="input-group-text" id="basic-addon2">@gmail.com</span>
-                            </div>
+                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="role">
+                                        <option selected value="0">Role</option>
+                                        <option value="1">Admin</option>
+                                        <option value="2">Guru</option>
+                                        <option value="3">Siswa</option>
+                                    </select>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">NAMA LENGKAP</span>
+                                        <input type="text" class="form-control" placeholder=" Nama Lengkap" aria-label="Nama Lengkap" aria-describedby="basic-addon1" id="namalengkap">
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">Tanggal Lahir</span>
+                                        <input type="date" name="admission_date" id="tgl_lahir" class="form-control">
+                                    </div>
+                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="jeniskelamin">
+                                        <option selected value="0">Jenis Kelamin</option>
+                                        <option value="1">Laki-laki</option>
+                                        <option value="2">Perempuan</option>
+                                    </select>
 
-                            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="role">
-                                <option selected value="0">Role</option>
-                                <option value="1">Admin</option>
-                                <option value="2">Guru</option>
-                                <option value="3">Siswa</option>
-                            </select>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon1">NAMA LENGKAP</span>
-                                <input type="text" class="form-control" placeholder=" Nama Lengkap" aria-label="Nama Lengkap" aria-describedby="basic-addon1" id="namalengkap">
+                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="kelas">
+                                        <option selected value="0">Kelas</option>
+                                        <?php
+                                        $result = $fun->getKelas();
+                                        while ($row = $result->fetch_assoc()) { ?>
+                                            <option value="<?php echo $row['id_kelas'] ?>"> <?php echo $row['nama'] ?> </option>
+                                        <?php } ?>
+                                    </select>
+                                    <div class="input-group mb-3" id="absen">
+                                        <span class="input-group-text" id="basic-addon1">Absen</span>
+                                        <input type="number" class="form-control" placeholder=" Masukkan Absen" aria-label="Absen" aria-describedby="basic-addon1" id="absenSiswa">
+                                    </div>
+                                    <button type="button" class="btn btn-success" id="simpan">Simpan</button>
+                                    <button type="button" class="btn btn-info">Reset</button>
+                                </form>
                             </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon1">Tanggal Lahir</span>
-                                <input type="date" name="admission_date" id="tgl_lahir" class="form-control">
-                            </div>
-                            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="jeniskelamin">
-                                <option selected value="0">Jenis Kelamin</option>
-                                <option value="1">Laki-laki</option>
-                                <option value="2">Perempuan</option>
-                            </select>
+                        </div>
 
-                            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="kelas">
-                                <option selected value="0">Kelas</option>
-                                <?php
-                                $result = $fun->getKelas();
-                                while ($row = $result->fetch_assoc()) { ?>
-                                    <option value="<?php echo $row['id_kelas'] ?>"> <?php echo $row['nama'] ?> </option>
-                                <?php } ?>
-                            </select>
-                            <div class="input-group mb-3" id="absen">
-                                <span class="input-group-text" id="basic-addon1">Absen</span>
-                                <input type="number" class="form-control" placeholder=" Masukkan Absen" aria-label="Absen" aria-describedby="basic-addon1" id="absenSiswa">
-                            </div>
-
-                        </form>
-                        <button type="button" class="btn btn-success" id="simpan">Simpan</button>
-                        <button type="button" class="btn btn-info">Reset</button>
 
                     </div>
                 </div>

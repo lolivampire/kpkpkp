@@ -1,10 +1,17 @@
 <?php
+session_start();
 include_once "../config/koneksi.php";
 include_once "../config/library.php";
 require_once "../config/functions.php";
 
 $fun = new Functions();
 
+if (isset($_SESSION["login"]) && isset($_SESSION["login-admin"])) {
+    $idU = $_SESSION["idu"];
+} else {
+    header('Location: ../login.php');
+    exit;
+}
 
 ?>
 
@@ -54,12 +61,17 @@ $fun = new Functions();
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <em class="fas fa-user me-2"></em>John Doe
+                                <em class="fas fa-user me-2"></em>
+                                <?php
+                                $result = $fun->getDataUserAll($idU);
+                                $displayName = $result->fetch_assoc();
+                                echo "$displayName[nama]";
+                                ?>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="#">Profile</a></li>
                                 <li><a class="dropdown-item" href="#">Settings</a></li>
-                                <li><a class="dropdown-item" href="#">Logout</a></li>
+                                <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
                             </ul>
                         </li>
                     </ul>

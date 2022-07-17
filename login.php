@@ -30,6 +30,8 @@ if (isset($_POST["login"])) {
     } else {
       echo "<script>alert('Username atau Password Salah!');</script>";
     }
+  } else {
+    echo "<script>alert('Username tidak terdaftar!');</script>";
   }
 }
 

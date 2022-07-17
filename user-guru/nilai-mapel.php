@@ -113,7 +113,7 @@ if (isset($_SESSION["login"]) && isset($_SESSION["login-guru"])) {
                                                     <td> <?= $row["nama_pengampu"]; ?></td>
                                                     <td> <?= $row["tahun_ajaran"]; ?></td>
                                                     <td>
-                                                        <a href="..\user-guru\nilai-siswa.php?tahun_ajaran=<?= $tahun; ?>&id_kelas=<?= $kelas ?>&id_kbm=<?= $row["id_kbm"]; ?>" class="btn btn-danger" id="btnHapusData"> ➜</a>
+                                                        <a href="..\user-guru\nilai-siswa.php?tahun_ajaran=<?= $tahun; ?>&id_kelas=<?= $kelas ?>&id_kbm=<?= $row["id_kbm"]; ?>" class="btn btn-primary" id="btnHapusData"> ➜</a>
                                                     </td>
                                                 </tr>
                                         <?php }

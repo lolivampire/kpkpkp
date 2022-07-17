@@ -1,15 +1,24 @@
 <?php
-
+session_start();
 require_once "../config/koneksi.php";
 require_once "../config/functions.php";
 include_once "../config/library.php";
 
 $fun = new Functions();
 
+if (isset($_SESSION["login"]) && isset($_SESSION["login-admin"])) {
+    $idU = $_SESSION["idu"];
+} else {
+    header('Location: ../login.php');
+    exit;
+}
+
+
 $id = $_GET["id"];
 $getData = $fun->getDataGuru($id);
 $row = $getData->fetch_assoc();
 var_dump($id);
+
 
 ?>
 
@@ -57,12 +66,17 @@ var_dump($id);
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <em class="fas fa-user me-2"></em>John Doe
+                                <em class="fas fa-user me-2"></em>
+                                <?php
+                                $result = $fun->getDataUserAll($idU);
+                                $displayName = $result->fetch_assoc();
+                                echo "$displayName[nama]";
+                                ?>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="#">Profile</a></li>
                                 <li><a class="dropdown-item" href="#">Settings</a></li>
-                                <li><a class="dropdown-item" href="#">Logout</a></li>
+                                <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -78,64 +92,69 @@ var_dump($id);
                     <h3 class="fs-4 mb-3">User Guru</h3>
                     <div id="notif"></div>
                     <div class="col">
-                        <form id="form-update" action="" method="post">
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon1">ID User</span>
-                                <input type="text" class="form-control" placeholder=" Masukkan ID User" aria-label="ID User" aria-describedby="basic-addon1" name="id_user" id="idUser" value="<?= $row["ID"] ?>" disabled>
+                        <div class="card">
+                            <div class="card-header">
+                                Form Ubah Data User
                             </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon1">Password</span>
-                                <input type="text" class="form-control" placeholder=" Masukkan Password" aria-label="Password" aria-describedby="basic-addon1" id="pass" name="pass" value="<?= $row["Pass"] ?>">
+                            <div class="card-body">
+                                <form id="form-update" action="" method="post">
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">ID User</span>
+                                        <input type="text" class="form-control" placeholder=" Masukkan ID User" aria-label="ID User" aria-describedby="basic-addon1" name="id_user" id="idUser" value="<?= $row["ID"] ?>" disabled>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">Password</span>
+                                        <input type="text" class="form-control" placeholder=" Masukkan Password" aria-label="Password" aria-describedby="basic-addon1" id="pass" name="pass" value="<?= $row["Pass"] ?>">
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Masukkan Email" aria-label="Email" aria-describedby="basic-addon2" id="email" name="email" value="<?= $row["email"] ?>">
+                                        <span class="input-group-text" id="basic-addon2">@gmail.com</span>
+                                    </div>
+                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="role" name="role" disabled>
+                                        <option value="1" <?php if ($row["hak_akses"] == 1) {
+                                                                echo "selected='selected'";
+                                                            } ?>>Admin</option>
+                                        <option value="2" <?php if ($row["hak_akses"] == 2) {
+                                                                echo "selected='selected'";
+                                                            } ?>>Guru</option>
+                                        <option value="3" <?php if ($row["hak_akses"] == 3) {
+                                                                echo "selected='selected'";
+                                                            } ?>>Siswa</option>
+                                    </select>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">NAMA LENGKAP</span>
+                                        <input type="text" class="form-control" placeholder=" Nama Lengkap" aria-label="Nama Lengkap" aria-describedby="basic-addon1" id="namalengkap" name="nama" value="<?= $row["nama"] ?>">
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">Tanggal Lahir</span>
+                                        <input type="date" name="admission_date" id="tgl_lahir" name="tgl_lahir" class="form-control" value="<?= $row["tgl_lahir"] ?>">
+                                    </div>
+                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="jeniskelamin" name="jeniskelamin">
+                                        <option value="1" <?php if ($row["jk"] == "LK") {
+                                                                echo "selected='selected'";
+                                                            } ?>>Laki-Laki</option>
+                                        <option value="2" <?php if ($row["jk"] == "PR") {
+                                                                echo "selected='selected'";
+                                                            } ?>>Perempuan</option>
+                                    </select>
+                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="kelas" name="kelas">
+                                        <option selected value="0">Kelas</option>
+                                        <?php
+                                        $result = $fun->getKelas();
+                                        $result_user = $fun->getKelasbyId($row['id_kelas']);
+                                        while ($row = $result->fetch_assoc()) { ?>
+                                            <option value="<?php echo $row['id_kelas'] ?>" <?php if ($row['id_kelas'] == $result_user['id_kelas']) {
+                                                                                                echo "selected='selected'";
+                                                                                            } ?>><?php echo $row['nama'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                                    <button type="submit" class="btn btn-success" name="btn_update" id="btn_update">Update Data</button>
+                                    <button type="button" class="btn btn-info">Reset</button>
+                                </form>
                             </div>
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="Masukkan Email" aria-label="Email" aria-describedby="basic-addon2" id="email" name="email" value="<?= $row["email"] ?>">
-                                <span class="input-group-text" id="basic-addon2">@gmail.com</span>
-                            </div>
-                            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="role" name="role" disabled>
-                                <option value="1" <?php if ($row["hak_akses"] == 1) {
-                                                        echo "selected='selected'";
-                                                    } ?>>Admin</option>
-                                <option value="2" <?php if ($row["hak_akses"] == 2) {
-                                                        echo "selected='selected'";
-                                                    } ?>>Guru</option>
-                                <option value="3" <?php if ($row["hak_akses"] == 3) {
-                                                        echo "selected='selected'";
-                                                    } ?>>Siswa</option>
-                            </select>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon1">NAMA LENGKAP</span>
-                                <input type="text" class="form-control" placeholder=" Nama Lengkap" aria-label="Nama Lengkap" aria-describedby="basic-addon1" id="namalengkap" name="nama" value="<?= $row["nama"] ?>">
-                            </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon1">Tanggal Lahir</span>
-                                <input type="date" name="admission_date" id="tgl_lahir" name="tgl_lahir" class="form-control" value="<?= $row["tgl_lahir"] ?>">
-                            </div>
-                            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="jeniskelamin" name="jeniskelamin">
-                                <option value="1" <?php if ($row["jk"] == "LK") {
-                                                        echo "selected='selected'";
-                                                    } ?>>Laki-Laki</option>
-                                <option value="2" <?php if ($row["jk"] == "PR") {
-                                                        echo "selected='selected'";
-                                                    } ?>>Perempuan</option>
-                            </select>
-                            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="kelas" name="kelas">
-                                <option selected value="0">Kelas</option>
-                                <?php
-                                $result = $fun->getKelas();
-                                $result_user = $fun->getKelasbyId($row['id_kelas']);
-                                while ($row = $result->fetch_assoc()) { ?>
-                                    <option value="<?php echo $row['id_kelas'] ?>" <?php if ($row['id_kelas'] == $result_user['id_kelas']) {
-                                                                                        echo "selected='selected'";
-                                                                                    } ?>><?php echo $row['nama'] ?></option>
-                                <?php } ?>
-                            </select>
-                        </form>
-                        <button type="submit" class="btn btn-success" name="btn_update" id="btn_update">Update Data</button>
-                        <button type="button" class="btn btn-info">Reset</button>
-
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

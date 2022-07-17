@@ -4,11 +4,14 @@ include_once "../config/koneksi.php";
 include_once "../config/library.php";
 require_once "../config/functions.php";
 require_once "../config/functions2.php";
+require_once "../config/functions3.php";
 
 $fun = new Functions();
 $funs = new FunctionsDua();
+$funss = new FunctionsSiswa();
+$tahun = $_GET["tahun_ajaran"];
 
-if (isset($_SESSION["login"]) && isset($_SESSION["login-admin"])) {
+if (isset($_SESSION["login"]) && isset($_SESSION["login-siswa"])) {
     $idU = $_SESSION["idu"];
 } else {
     header('Location: ../login.php');
@@ -23,7 +26,7 @@ if (isset($_SESSION["login"]) && isset($_SESSION["login-admin"])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TITLE</title>
+    <title>Halaman Olah Nilai</title>
 </head>
 
 <body>
@@ -32,13 +35,9 @@ if (isset($_SESSION["login"]) && isset($_SESSION["login-admin"])) {
         <div class="bg-white" id="sidebar-wrapper">
             <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><em class="fas fa-user-secret me-2"></em>SIPN</div>
             <div class="list-group list-group-flush my-3">
-                <a href="../user-admin/dashboard-admin.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-tachometer-alt me-2"></em>Dashboard</a>
-                <a href="../user-admin/user.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-project-diagram me-2"></em>User Admin</a>
-                <a href="../user-admin/user-guru.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-project-diagram me-2"></em>User Guru</a>
-                <a href="../user-admin/user-siswa.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-project-diagram me-2"></em>User Siswa</a>
-                <a href="../user-admin/kbm.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-chart-line me-2"></em>Mapel</a>
-                <a href="../user-admin/nilai.php" class="list-group-item list-group-item-action bg-transparent second-text active"><em class="fas fa-paperclip me-2"></em>Nilai</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><em class="fas fa-power-off me-2"></em>Logout</a>
+                <a href="dashboard.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-tachometer-alt me-2"></em>Dashboard</a>
+                <a href="nilai.php" class="list-group-item list-group-item-action bg-transparent second-text active"><em class="fas fa-project-diagram me-2"></em>Penilaian</a>
+                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-project-diagram me-2"></em>Remidial</a>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -78,33 +77,49 @@ if (isset($_SESSION["login"]) && isset($_SESSION["login-admin"])) {
             <!-- PREVIEW CARD -->
             <div class="container-fluid px-4">
                 <div class="row my-3">
-                    <h3 class="fs-4 mb-3">OLAH DATA NILAI SISWA</h3>
+                    <h3 class="fs-4 mb-3">PILIHAN KELAS</h3>
                     <div class="d-flex mb-3">
                         <div class="">
-                            <a href="#" class="btn btn-success">Kembali</a>
+                            <a href="..\user-siswa\nilai.php" class="btn btn-success">Kembali</a>
                         </div>
                     </div>
-                    <div class="container">
-                        <div class="card">
-                            <h5 class="card-header">Tahun Ajaran</h5>
+                    <div class="col mt-1">
+                        <!-- tabel -->
+                        <div class="card shadow-lg">
+                            <h5 class="card-header">KELAS</h5>
                             <div class="card-body">
-                                <?php
-                                $result = $funs->getTahunPelajaran();
-                                if ($result && $result->num_rows > 0) {
-                                    while ($row = $result->fetch_assoc()) { ?>
-                                        <div class="card my-3" href="#">
-                                            <div class="card-body">
+                                <table class="table bg-white rounded shadow-lg  table-hover" id='tabel_nilai'>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col-auto" hidden>ID Kelas</th>
+                                            <th scope="col-auto">Kelas</th>
+                                            <th scope="col-auto">Jumlah Mata Pelajaran Ditempuh</th>
+                                            <th scope="col-auto">Tahun Ajaran</th>
+                                            <th scope="col-atuo">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $result = $funss->siswaGetKelas($tahun, $idU);
+                                        if ($result && $result->num_rows > 0) {
+                                            while ($row = $result->fetch_assoc()) { ?>
                                                 <tr>
-                                                    <th scope="row" id="rowTahun"><?= $row["tahun_ajaran"]; ?></th>
-                                                    <br>
-                                                    <a href="..\user-admin\nilai-kelas.php?tahun_ajaran=<?= $row["tahun_ajaran"]; ?>" class="btn btn-primary"> ➜</a>
+                                                    <th scope="row" id="rowKelas" hidden><?= $row["id_kelas"]; ?></th>
+                                                    <td> <?= $row["nama"]; ?></td>
+                                                    <td> <?= $row["jumlah_pelajaran"]; ?></td>
+                                                    <td> <?= $row["tahun_ajaran"]; ?></td>
+                                                    <td>
+                                                        <a href="..\user-siswa\nilai-mapel.php?tahun_ajaran=<?= $tahun; ?>&id_kelas=<?= $row["id_kelas"]; ?>" class="btn btn-primary" id="btnHapusData"> ➜ </a>
+                                                    </td>
                                                 </tr>
-                                            </div>
-                                        </div>
-                                <?php }
-                                } ?>
+                                        <?php }
+                                        } ?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
+
+                        <!-- END tabel -->
                     </div>
                 </div>
             </div>

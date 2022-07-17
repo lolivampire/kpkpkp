@@ -1,20 +1,28 @@
 <?php
-
+session_start();
 include_once "../config/koneksi.php";
 include_once "../config/library.php";
 require_once "../config/functions.php";
 require_once "../config/functions2.php";
 
+$fun = new Functions();
 $funs = new FunctionsDua();
 
 $kbm = $_GET["id_kbm"];
 $tahun = $_GET["tahun_ajaran"];
 $kelas = $_GET["id_kelas"];
-echo ($kbm);
-echo (', ');
-echo ($tahun);
-echo (', ');
-echo ($kelas);
+// echo ($kbm);
+// echo (', ');
+// echo ($tahun);
+// echo (', ');
+// echo ($kelas);
+
+if (isset($_SESSION["login"]) && isset($_SESSION["login-admin"])) {
+    $idU = $_SESSION["idu"];
+} else {
+    header('Location: ../login.php');
+    exit;
+}
 
 
 ?>
@@ -61,12 +69,17 @@ echo ($kelas);
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <em class="fas fa-user me-2"></em>John Doe
+                                <em class="fas fa-user me-2"></em>
+                                <?php
+                                $result = $fun->getDataUserAll($idU);
+                                $displayName = $result->fetch_assoc();
+                                echo "$displayName[nama]";
+                                ?>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="#">Profile</a></li>
                                 <li><a class="dropdown-item" href="#">Settings</a></li>
-                                <li><a class="dropdown-item" href="#">Logout</a></li>
+                                <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -114,7 +127,7 @@ echo ($kelas);
                                                     <td> <?= $row["kkm"]; ?></td>
                                                     <td> <?= $row["rata_rata_nilai"]; ?></td>
                                                     <td>
-                                                        <a href="..\user-admin\nilai-siswa-detail.php?tahun_ajaran=<?= $tahun; ?>&id_kelas=<?= $kelas ?>&id_kbm=<?= $kbm ?>&id_user=<?= $row["userID"]; ?>&id_mapel=<?= $row["id_mapel"] ?>" class="btn btn-danger" id="btnHapusData"> -></a>
+                                                        <a href="..\user-admin\nilai-siswa-detail.php?tahun_ajaran=<?= $tahun; ?>&id_kelas=<?= $kelas ?>&id_kbm=<?= $kbm ?>&id_user=<?= $row["userID"]; ?>&id_mapel=<?= $row["id_mapel"] ?>" class="btn btn-primary" id="btnHapusData"> ➜</a>
                                                     </td>
                                                 </tr>
                                         <?php }

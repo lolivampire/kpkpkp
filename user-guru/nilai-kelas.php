@@ -107,7 +107,7 @@ if (isset($_SESSION["login"]) && isset($_SESSION["login-guru"])) {
                                                     <td> <?= $row["jumlah_pelajaran"]; ?></td>
                                                     <td> <?= $row["tahun_ajaran"]; ?></td>
                                                     <td>
-                                                        <a href="..\user-guru\nilai-mapel.php?tahun_ajaran=<?= $tahun; ?>&id_kelas=<?= $row["id_kelas"]; ?>" class="btn btn-danger" id="btnHapusData"> ➜ </a>
+                                                        <a href="..\user-guru\nilai-mapel.php?tahun_ajaran=<?= $tahun; ?>&id_kelas=<?= $row["id_kelas"]; ?>" class="btn btn-primary" id="btnHapusData"> ➜ </a>
                                                     </td>
                                                 </tr>
                                         <?php }

@@ -4,11 +4,13 @@ include_once "../config/koneksi.php";
 include_once "../config/library.php";
 require_once "../config/functions.php";
 require_once "../config/functions2.php";
+require_once "../config/functions3.php";
 
 $fun = new Functions();
 $funs = new FunctionsDua();
+$funss = new FunctionsSiswa();
 
-if (isset($_SESSION["login"]) && isset($_SESSION["login-admin"])) {
+if (isset($_SESSION["login"]) && isset($_SESSION["login-siswa"])) {
     $idU = $_SESSION["idu"];
 } else {
     header('Location: ../login.php');
@@ -23,7 +25,7 @@ if (isset($_SESSION["login"]) && isset($_SESSION["login-admin"])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TITLE</title>
+    <title>Halaman Olah Nilai</title>
 </head>
 
 <body>
@@ -32,12 +34,9 @@ if (isset($_SESSION["login"]) && isset($_SESSION["login-admin"])) {
         <div class="bg-white" id="sidebar-wrapper">
             <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><em class="fas fa-user-secret me-2"></em>SIPN</div>
             <div class="list-group list-group-flush my-3">
-                <a href="../user-admin/dashboard-admin.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-tachometer-alt me-2"></em>Dashboard</a>
-                <a href="../user-admin/user.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-project-diagram me-2"></em>User Admin</a>
-                <a href="../user-admin/user-guru.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-project-diagram me-2"></em>User Guru</a>
-                <a href="../user-admin/user-siswa.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-project-diagram me-2"></em>User Siswa</a>
-                <a href="../user-admin/kbm.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-chart-line me-2"></em>Mapel</a>
-                <a href="../user-admin/nilai.php" class="list-group-item list-group-item-action bg-transparent second-text active"><em class="fas fa-paperclip me-2"></em>Nilai</a>
+                <a href="dashboard.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-tachometer-alt me-2"></em>Dashboard</a>
+                <a href="nilai.php" class="list-group-item list-group-item-action bg-transparent second-text active"><em class="fas fa-project-diagram me-2"></em>Nilai</a>
+                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><em class="fas fa-project-diagram me-2"></em>Remidial</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><em class="fas fa-power-off me-2"></em>Logout</a>
             </div>
         </div>
@@ -81,7 +80,7 @@ if (isset($_SESSION["login"]) && isset($_SESSION["login-admin"])) {
                     <h3 class="fs-4 mb-3">OLAH DATA NILAI SISWA</h3>
                     <div class="d-flex mb-3">
                         <div class="">
-                            <a href="#" class="btn btn-success">Kembali</a>
+                            <a href="nilai.php" class="btn btn-success">Kembali</a>
                         </div>
                     </div>
                     <div class="container">
@@ -89,15 +88,15 @@ if (isset($_SESSION["login"]) && isset($_SESSION["login-admin"])) {
                             <h5 class="card-header">Tahun Ajaran</h5>
                             <div class="card-body">
                                 <?php
-                                $result = $funs->getTahunPelajaran();
+                                $result = $funss->siswaGetNilai($idU);
                                 if ($result && $result->num_rows > 0) {
                                     while ($row = $result->fetch_assoc()) { ?>
                                         <div class="card my-3" href="#">
                                             <div class="card-body">
                                                 <tr>
-                                                    <th scope="row" id="rowTahun"><?= $row["tahun_ajaran"]; ?></th>
+                                                    <th scope="row" id="rowTahun"> Tahun Ajaran <?= $row["tahun_ajaran"]; ?></th>
                                                     <br>
-                                                    <a href="..\user-admin\nilai-kelas.php?tahun_ajaran=<?= $row["tahun_ajaran"]; ?>" class="btn btn-primary"> ➜</a>
+                                                    <a href="..\user-siswa\nilai-kelas.php?tahun_ajaran=<?= $row["tahun_ajaran"]; ?>" class="btn btn-primary"> ➜ </a>
                                                 </tr>
                                             </div>
                                         </div>
